@@ -31,7 +31,15 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    PoppinsBlack: require('../assets/fonts/Poppins-Black.ttf'),
+    PoppinsBold: require('../assets/fonts/Poppins-Bold.ttf'),
+    PoppinsExtraBold: require('../assets/fonts/Poppins-ExtraBold.ttf'),
+    PoppinsExtraLight: require('../assets/fonts/Poppins-ExtraLight.ttf'),
+    PoppinsLight: require('../assets/fonts/Poppins-Light.ttf'),
+    PoppinsMedium: require('../assets/fonts/Poppins-Medium.ttf'),
+    PoppinsRegular: require('../assets/fonts/Poppins-Regular.ttf'),
+    PoppinsSemiBold: require('../assets/fonts/Poppins-SemiBold.ttf'),
+    PoppinsThin: require('../assets/fonts/Poppins-Thin.ttf'),
     ...FontAwesome.font,
   });
 
@@ -58,20 +66,14 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      {/* <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack> */}
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary }}>
         <StatusBar />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack>
-            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-          </Stack>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="onboarding" />
+          <Stack.Screen name="chat" />
+          <Stack.Screen name="profile" />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
         <Toast />
       </SafeAreaView>

@@ -1,7 +1,7 @@
 export const colors = {
   white: '#FFFFFF',
   black: '#000000',
-  primary: '#0078C6',
+  primary: '#F7F8FA',
   inputBorder: '#D4D4D4',
   placeholder: '#A3A3A3',
   offWhite: '#FAFAFA',
@@ -53,6 +53,16 @@ export const fontFamily = {
     regular: 'BarlowRegular',
     light: 'BarlowLight',
   },
+  poppins: {
+    black: 'PoppinsBlack',
+    bold: 'PoppinsBold',
+    extrabold: 'PoppinsExtrabold',
+    extralight: 'PoppinsExtraLight',
+    semiBold: 'PoppinsSemiBold',
+    medium: 'PoppinsMedium',
+    regular: 'PoppinsRegular',
+    light: 'PoppinsLight',
+  },
 };
 
 export const alertColors = {
@@ -92,10 +102,13 @@ export const paddings = {
   lg: 16,
   xl: 20,
   xxl: 24,
+  xxxl: 32,
+  xxxxl: 40,
 } as const satisfies Record<string, number>;
 
 export const radius = {
   none: 0,
   sm: 12,
   xxl: 32,
+  max: 9999,
 } as const satisfies Record<string, number>;
