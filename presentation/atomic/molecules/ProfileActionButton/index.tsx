@@ -1,7 +1,9 @@
 import { CustomText } from '@/presentation/atomic/atoms';
 import { colors, fontSizes } from '@/theme';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View, ViewStyle } from 'react-native';
+
+type IconNames = keyof typeof Ionicons.glyphMap;
 
 type ProfileActionButtonProps = {
   title: string;
@@ -10,6 +12,8 @@ type ProfileActionButtonProps = {
   showArrow?: boolean;
   onPress?: () => void;
   style?: ViewStyle;
+  iconName?: IconNames;
+  iconColor?: keyof typeof colors;
 };
 
 export const ProfileActionButton = ({
@@ -19,6 +23,8 @@ export const ProfileActionButton = ({
   showArrow = false,
   onPress,
   style,
+  iconName,
+  iconColor,
 }: ProfileActionButtonProps) => {
   const isDanger = variant === 'danger';
 
@@ -35,28 +41,38 @@ export const ProfileActionButton = ({
         style,
       ]}
     >
-      <View style={{ flexShrink: 1, gap: 4 }}>
-        <CustomText
-          style={{
-            color: isDanger ? colors.red[300] : colors.black,
-            fontSize: fontSizes.xlarge,
-          }}
-          fontType="PoppinsMedium"
-        >
-          {title}
-        </CustomText>
-
-        {subtitle && (
-          <CustomText style={{ fontSize: fontSizes.large }}>
-            {subtitle}
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 24 }}>
+        <Ionicons
+          style={iconColor ? { color: iconColor } : { color: colors.gray[600] }}
+          size={32}
+          name={iconName}
+        />
+        <View style={{ flexShrink: 1, gap: 4 }}>
+          <CustomText
+            style={{
+              color: isDanger ? colors.red[300] : colors.black,
+              fontSize: fontSizes.xxlarge,
+            }}
+            fontType="PoppinsMedium"
+          >
+            {title}
           </CustomText>
-        )}
+
+          {subtitle && (
+            <CustomText
+              style={{ fontSize: fontSizes.large, color: colors.gray[500] }}
+              fontType="PoppinsRegular"
+            >
+              {subtitle}
+            </CustomText>
+          )}
+        </View>
       </View>
 
       {showArrow && (
-        <MaterialIcons
+        <Ionicons
           size={18}
-          name="arrow-forward-ios"
+          name="chevron-forward"
           color={isDanger ? colors.red[300] : colors.gray[500]}
         />
       )}

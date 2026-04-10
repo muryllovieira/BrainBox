@@ -1,4 +1,4 @@
-import { colors, fontSizes } from '@/theme';
+import { colors, fontSizes, radius } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { FC } from 'react';
@@ -38,7 +38,7 @@ export const SectionTitle: FC<SectionTitleProps> = ({
       ]}
     >
       {canGoBack && (
-        <TouchableOpacity onPress={handleBack}>
+        <TouchableOpacity style={styles.backButton} onPress={handleBack}>
           <Ionicons
             back
             name="chevron-back-outline"
@@ -48,7 +48,7 @@ export const SectionTitle: FC<SectionTitleProps> = ({
         </TouchableOpacity>
       )}
       <View style={styles.center}>
-        <CustomText fontType="PoppinsSemiBold" style={styles.title}>
+        <CustomText fontType="PoppinsMedium" style={styles.title}>
           {title}
         </CustomText>
       </View>
@@ -71,7 +71,7 @@ export const SectionTitle: FC<SectionTitleProps> = ({
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: fontSizes.xxlarge,
+    fontSize: fontSizes.xxxlarge,
     color: colors.black,
   },
   container: {
@@ -87,10 +87,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backButton: {
-    padding: 8,
+    width: 45,
+    height: 45,
+    backgroundColor: colors.primary,
+    borderRadius: radius.sm,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 8,
-    backgroundColor: colors.gray[100],
+    shadowColor: '#D3D1D8',
+    shadowOffset: { width: 5.92, height: 11.84 },
+    shadowOpacity: 0.3,
+    shadowRadius: 23.68 / 2,
+    elevation: 8,
   },
 });
