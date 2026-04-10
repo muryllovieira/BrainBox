@@ -11,7 +11,25 @@ type CustomTextProps = TextProps & {
     | 'PoppinsMedium'
     | 'PoppinsRegular'
     | 'PoppinsSemiBold'
-    | 'PoppinsThin';
+    | 'PoppinsThin'
+    | 'UrbanistBlack'
+    | 'UrbanistBlackItalic'
+    | 'UrbanistBold'
+    | 'UrbanistBoldItalic'
+    | 'UrbanistExtraBold'
+    | 'UrbanistExtraBoldItalic'
+    | 'UrbanistExtraLight'
+    | 'UrbanistExtraLightItalic'
+    | 'UrbanistItalic'
+    | 'UrbanistLight'
+    | 'UrbanistLightItalic'
+    | 'UrbanistMedium'
+    | 'UrbanistMediumItalic'
+    | 'UrbanistRegular'
+    | 'UrbanistSemiBold'
+    | 'UrbanistSemiBoldItalic'
+    | 'UrbanistThin'
+    | 'UrbanistThinItalic';
 };
 
 export const CustomText: FC<CustomTextProps> = ({

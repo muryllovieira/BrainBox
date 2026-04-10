@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   imageWrapper: {
     borderRadius: radius.xxl,
     overflow: 'hidden',
-    backgroundColor: '#1a1a2e',
   },
   image: {
     width: '100%',
