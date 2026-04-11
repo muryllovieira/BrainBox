@@ -63,6 +63,7 @@ export const SectionTitle: FC<SectionTitleProps> = ({
           </TouchableOpacity>
         )}
       </View>
+
       {settingsIcon && <View />}
       {canGoBack && <View />}
     </View>
