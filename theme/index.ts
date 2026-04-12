@@ -5,6 +5,7 @@ export const colors = {
   inputBorder: '#D4D4D4',
   placeholder: '#A3A3A3',
   offWhite: '#FAFAFA',
+  iconColor: '#BDBDBD',
 
   yellow: {
     100: '#FEE9B0',
@@ -63,6 +64,16 @@ export const fontFamily = {
     regular: 'PoppinsRegular',
     light: 'PoppinsLight',
   },
+  urbanist: {
+    black: 'UrbanistBlack',
+    bold: 'UrbanistBold',
+    extrabold: 'UrbanistExtrabold',
+    extralight: 'UrbanistExtraLight',
+    semiBold: 'UrbanistSemiBold',
+    medium: 'UrbanistMedium',
+    regular: 'UrbanistRegular',
+    light: 'UrbanistLight',
+  },
 };
 
 export const alertColors = {
@@ -108,7 +119,11 @@ export const paddings = {
 
 export const radius = {
   none: 0,
+  xs: 4,
   sm: 12,
+  md: 16,
+  lg: 20,
+  xl: 24,
   xxl: 32,
   max: 9999,
 } as const satisfies Record<string, number>;

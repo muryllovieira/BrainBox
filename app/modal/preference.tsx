@@ -8,7 +8,7 @@ export default function Preferences() {
   return (
     <View style={styles.container}>
       <SectionTitle title="Preference" canGoBack settingsIcon={false} />
-      <View style={{ gap: 50 }}>
+      <View style={{ gap: 50, paddingHorizontal: paddings.xxxl }}>
         <ProfileActionButton
           title="Account Information"
           subtitle="Change your Account information"
@@ -39,7 +39,7 @@ export default function Preferences() {
         <ProfileActionButton
           title="Invite Your Friends"
           subtitle="Get $3 For Each Invitation!"
-          onPress={() => {}}
+          onPress={() => router.navigate('/modal/invite-friends')}
           showArrow={false}
           style={styles.options}
           iconName="pencil-sharp"
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    paddingHorizontal: paddings.xxxl,
     gap: 72,
   },
   options: {

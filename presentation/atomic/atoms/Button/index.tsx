@@ -1,5 +1,5 @@
-import { colors, fontSizes, radius } from '@/theme';
-import { MaterialIcons } from '@expo/vector-icons';
+import { colors, fontSizes, paddings } from '@/theme';
+import { Ionicons } from '@expo/vector-icons';
 import { FC } from 'react';
 import {
   ActivityIndicator,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { CustomText } from '../CustomText';
 
-type IconNames = keyof typeof MaterialIcons.glyphMap;
+type IconNames = keyof typeof Ionicons.glyphMap;
 
 type ButtonProps = TouchableOpacityProps & {
   text: string;
@@ -31,25 +31,25 @@ export const Button: FC<ButtonProps> = ({
   rightIcon,
   ...rest
 }) => {
-  let buttonColor;
-  let buttonTextColor;
+  let buttonColor: string;
+  let buttonTextColor: string;
 
   switch (variant) {
-    case 'default':
-      buttonColor = colors.primary;
-      buttonTextColor = colors.white;
-      break;
     case 'delete':
-      buttonColor = colors.red;
-      buttonTextColor = colors.white;
+      buttonColor = colors.red[200] as string;
+      buttonTextColor = colors.white as string;
       break;
     case 'secondary':
-      buttonColor = colors.white;
-      buttonTextColor = colors.primary;
+      buttonColor = colors.white as string;
+      buttonTextColor = colors.primary as string;
+      break;
     case 'outlined':
-      buttonColor = 'transparent';
-      buttonTextColor = colors.primary;
+      buttonColor = colors.gray[200] as string;
+      buttonTextColor = colors.black as string;
+      break;
     default:
+      buttonColor = colors.black as string;
+      buttonTextColor = colors.white as string;
       break;
   }
 
@@ -61,9 +61,10 @@ export const Button: FC<ButtonProps> = ({
       style={[
         styles.container,
         {
-          backgroundColor: colors.black,
-          borderWidth: variant === 'outlined' ? 1 : 0,
-          borderColor: colors.primary,
+          backgroundColor: buttonColor,
+          borderWidth: variant === 'outlined' ? 2 : 0,
+          borderColor: colors.black as string,
+          justifyContent: leftIcon || rightIcon ? 'space-between' : 'center',
         },
         containerStyle,
       ]}
@@ -71,7 +72,7 @@ export const Button: FC<ButtonProps> = ({
       {!isLoading ? (
         <>
           {leftIcon && (
-            <MaterialIcons size={24} color={buttonTextColor} name={leftIcon} />
+            <Ionicons size={24} color={buttonTextColor} name={leftIcon} />
           )}
           <CustomText
             fontType="PoppinsMedium"
@@ -80,11 +81,11 @@ export const Button: FC<ButtonProps> = ({
             {text}
           </CustomText>
           {rightIcon && (
-            <MaterialIcons size={24} color={buttonTextColor} name={rightIcon} />
+            <Ionicons size={24} color={buttonTextColor} name={rightIcon} />
           )}
         </>
       ) : (
-        <ActivityIndicator color={colors.white} />
+        <ActivityIndicator color={colors.white as string} />
       )}
     </TouchableOpacity>
   );
@@ -93,13 +94,11 @@ export const Button: FC<ButtonProps> = ({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    paddingVertical: 12,
-    paddingHorizontal: 8,
+    paddingVertical: paddings.lg,
+    paddingHorizontal: paddings.xl,
     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: radius.sm,
+    borderRadius: 8,
     flexDirection: 'row',
-    gap: 16,
   },
   text: {
     fontSize: fontSizes.xlarge,

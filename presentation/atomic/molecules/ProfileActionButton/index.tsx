@@ -14,6 +14,7 @@ type ProfileActionButtonProps = {
   style?: ViewStyle;
   iconName?: IconNames;
   iconColor?: keyof typeof colors;
+  progress?: number;
 };
 
 export const ProfileActionButton = ({
@@ -25,6 +26,7 @@ export const ProfileActionButton = ({
   style,
   iconName,
   iconColor,
+  progress,
 }: ProfileActionButtonProps) => {
   const isDanger = variant === 'danger';
 
@@ -47,7 +49,7 @@ export const ProfileActionButton = ({
           size={32}
           name={iconName}
         />
-        <View style={{ flexShrink: 1, gap: 4 }}>
+        <View style={{ flexShrink: 1, gap: 12 }}>
           <CustomText
             style={{
               color: isDanger ? colors.red[300] : colors.black,
@@ -59,12 +61,33 @@ export const ProfileActionButton = ({
           </CustomText>
 
           {subtitle && (
-            <CustomText
-              style={{ fontSize: fontSizes.large, color: colors.gray[500] }}
-              fontType="PoppinsRegular"
-            >
-              {subtitle}
-            </CustomText>
+            <View style={{ gap: 8 }}>
+              {progress && (
+                <View
+                  style={{
+                    height: 6,
+                    borderRadius: 99,
+                    backgroundColor: colors.gray[200],
+                    width: '100%',
+                  }}
+                >
+                  <View
+                    style={{
+                      height: 6,
+                      borderRadius: 99,
+                      backgroundColor: colors.black,
+                      width: `${progress * 100}%`,
+                    }}
+                  />
+                </View>
+              )}
+              <CustomText
+                style={{ fontSize: fontSizes.large, color: colors.gray[500] }}
+                fontType="PoppinsRegular"
+              >
+                {subtitle}
+              </CustomText>
+            </View>
           )}
         </View>
       </View>

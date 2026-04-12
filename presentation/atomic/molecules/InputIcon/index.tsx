@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   TextInputProps,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
@@ -19,6 +20,7 @@ type InputIconProps = TextInputProps & {
   label?: string;
   inputStyle?: StyleProp<ViewStyle>;
   iconColor?: keyof typeof colors;
+  onPressIcon?: () => void;
 };
 
 export const InputIcon: FC<InputIconProps> = ({
@@ -27,6 +29,7 @@ export const InputIcon: FC<InputIconProps> = ({
   inputStyle,
   iconColor,
   label,
+  onPressIcon,
   ...rest
 }) => {
   return (
@@ -34,19 +37,35 @@ export const InputIcon: FC<InputIconProps> = ({
       {label && <CustomText style={styles.inputLabel}>{label}</CustomText>}
       <View style={styles.container}>
         {iconSide === 'left' && (
-          <MaterialIcons
-            style={[styles.icon, iconColor ? { color: iconColor } : null]}
-            size={18}
-            name={iconName}
-          />
+          <TouchableOpacity onPress={onPressIcon} disabled={!onPressIcon}>
+            <MaterialIcons
+              style={[
+                styles.icon,
+                iconColor ? { color: iconColor as string } : null,
+              ]}
+              size={24}
+              name={iconName}
+            />
+          </TouchableOpacity>
         )}
-        <TextInput {...rest} style={styles.input} />
+
+        <TextInput
+          {...rest}
+          style={styles.input}
+          placeholderTextColor={colors.gray[500]}
+        />
+
         {iconSide === 'right' && (
-          <MaterialIcons
-            style={[styles.icon, iconColor ? { color: iconColor } : null]}
-            size={18}
-            name={iconName}
-          />
+          <TouchableOpacity onPress={onPressIcon} disabled={!onPressIcon}>
+            <MaterialIcons
+              style={[
+                styles.icon,
+                iconColor ? { color: colors[iconColor] as string } : null,
+              ]}
+              size={24}
+              name={iconName}
+            />
+          </TouchableOpacity>
         )}
       </View>
     </View>

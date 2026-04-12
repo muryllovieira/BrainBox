@@ -1,3 +1,4 @@
+export * from './Button';
 export * from './CustomText';
 export * from './DotIndicator';
 export * from './NavArrow';

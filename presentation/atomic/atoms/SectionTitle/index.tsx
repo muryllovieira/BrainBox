@@ -1,4 +1,4 @@
-import { colors, fontSizes, radius } from '@/theme';
+import { colors, fontSizes, paddings, radius } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { FC } from 'react';
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: paddings.xxl,
   },
   side: {
     alignItems: 'flex-start',

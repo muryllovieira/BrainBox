@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: fontSizes.xlarge,
     textAlign: 'center',
-    color: colors.gray[300],
+    color: colors.gray[500],
   },
   textContainer: {
     paddingHorizontal: 80,
