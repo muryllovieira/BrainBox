@@ -21,6 +21,7 @@ type InputIconProps = TextInputProps & {
   inputStyle?: StyleProp<ViewStyle>;
   iconColor?: keyof typeof colors;
   onPressIcon?: () => void;
+  disabled?: boolean;
 };
 
 export const InputIcon: FC<InputIconProps> = ({
@@ -30,6 +31,7 @@ export const InputIcon: FC<InputIconProps> = ({
   iconColor,
   label,
   onPressIcon,
+  disabled,
   ...rest
 }) => {
   return (

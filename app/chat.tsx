@@ -1,9 +1,10 @@
+import { useChat } from '@/data/ChatBot';
 import { CustomText } from '@/presentation/atomic/atoms/CustomText';
 import { SectionTitle } from '@/presentation/atomic/atoms/SectionTitle';
 import { CardInstructions, InputIcon } from '@/presentation/atomic/molecules';
 import { AiResponse, MyQuest } from '@/presentation/atomic/organisms';
 import { colors, fontSizes, paddings } from '@/theme';
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -13,22 +14,25 @@ import {
 } from 'react-native';
 
 export default function Chat() {
-  const [messages, setMessages] = useState<any[]>([]);
-  const [text, setText] = useState('');
+  const { messages, sendMessage, sendMessageStatus } = useChat();
+  const [text, setText] = React.useState('');
+  const flatListRef = useRef<FlatList>(null);
 
-  const handleSend = () => {
-    if (text.length > 0) {
-      setMessages([...messages, { id: Date.now(), text: text, type: 'user' }]);
+  const isLoading = sendMessageStatus.status === 'pending';
+
+  const handleSend = async () => {
+    if (text.trim().length > 0 && !isLoading) {
+      const messageToSend = text;
       setText('');
-
-      setTimeout(() => {
-        setMessages(prev => [
-          ...prev,
-          { id: Date.now(), text: 'Resposta da IA para: ' + text, type: 'ai' },
-        ]);
-      }, 1000);
+      await sendMessage(messageToSend);
     }
   };
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    }
+  }, [messages]);
 
   return (
     <KeyboardAvoidingView
@@ -52,8 +56,9 @@ export default function Chat() {
           </View>
         ) : (
           <FlatList
+            ref={flatListRef}
             data={messages}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={(_, index) => index.toString()}
             contentContainerStyle={{
               paddingBottom: paddings.xxl,
               paddingTop: paddings.xl,
@@ -62,10 +67,13 @@ export default function Chat() {
               <View
                 style={[
                   styles.messageContainer,
-                  { backgroundColor: item.type === 'ai' ? '#F9F9F9' : 'white' },
+                  {
+                    backgroundColor:
+                      item.role === 'model' ? '#F9F9F9' : 'white',
+                  },
                 ]}
               >
-                {item.type === 'ai' ? (
+                {item.role === 'model' ? (
                   <AiResponse
                     message={item.text}
                     imageSource={require('@/assets/images/Brainbox.png')}
@@ -84,11 +92,12 @@ export default function Chat() {
 
         <View style={styles.footer}>
           <InputIcon
-            iconName="send"
+            iconName={isLoading ? 'downloading' : 'send'}
             placeholder="Send a message."
             value={text}
             onChangeText={setText}
             onPressIcon={handleSend}
+            disabled={isLoading}
           />
         </View>
       </View>
