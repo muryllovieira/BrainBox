@@ -21,7 +21,7 @@ export const SectionTitle: FC<SectionTitleProps> = ({
   };
 
   const handleProfile = () => {
-    router.navigate('/profile');
+    router.navigate('/(main)/profile/profile');
   };
 
   return (

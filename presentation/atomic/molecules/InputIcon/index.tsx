@@ -39,7 +39,11 @@ export const InputIcon: FC<InputIconProps> = ({
       {label && <CustomText style={styles.inputLabel}>{label}</CustomText>}
       <View style={styles.container}>
         {iconSide === 'left' && (
-          <TouchableOpacity onPress={onPressIcon} disabled={!onPressIcon}>
+          <TouchableOpacity
+            onPress={onPressIcon}
+            disabled={!onPressIcon}
+            accessibilityRole="button"
+          >
             <MaterialIcons
               style={[
                 styles.icon,
@@ -58,7 +62,11 @@ export const InputIcon: FC<InputIconProps> = ({
         />
 
         {iconSide === 'right' && (
-          <TouchableOpacity onPress={onPressIcon} disabled={!onPressIcon}>
+          <TouchableOpacity
+            onPress={onPressIcon}
+            disabled={!onPressIcon}
+            accessibilityRole="button"
+          >
             <MaterialIcons
               style={[
                 styles.icon,

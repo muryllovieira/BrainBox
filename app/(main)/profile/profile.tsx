@@ -21,7 +21,7 @@ export default function Profile() {
         <AccountOwner
           name="Tom Hillson"
           email="Tomhill@mail.com"
-          avatar={require('../assets/images/onboarding-1.png')}
+          avatar={require('@/assets/images/onboarding-1.png')}
         />
         <View style={{ gap: 30 }}>
           <ProfileActionButton

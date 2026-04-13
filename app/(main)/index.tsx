@@ -20,7 +20,6 @@ export default function OnboardingScreen() {
 
   const handleNext = () => {
     if (isLast) {
-      //  router.replace('/chat');
       return;
     }
     carouselRef.current?.next();
@@ -31,7 +30,7 @@ export default function OnboardingScreen() {
   };
 
   const handleSkip = () => {
-    router.navigate('/chat');
+    router.navigate('/(main)/chat/chat');
   };
 
   return (
