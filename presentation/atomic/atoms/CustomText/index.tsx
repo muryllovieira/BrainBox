@@ -1,3 +1,4 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { FC } from 'react';
 import { Text, TextProps } from 'react-native';
 
@@ -36,8 +37,13 @@ export const CustomText: FC<CustomTextProps> = ({
   fontType = 'PoppinsRegular',
   ...rest
 }) => {
+  const theme = useThemeColors();
+
   return (
-    <Text {...rest} style={[rest.style, { fontFamily: fontType }]}>
+    <Text
+      {...rest}
+      style={[{ color: theme.text }, rest.style, { fontFamily: fontType }]}
+    >
       {rest.children}
     </Text>
   );

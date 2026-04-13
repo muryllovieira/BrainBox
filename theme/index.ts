@@ -7,6 +7,23 @@ export const colors = {
   offWhite: '#FAFAFA',
   iconColor: '#BDBDBD',
 
+  light: {
+    background: '#FFFFFF',
+    surface: '#F5F5F5',
+    text: '#000000',
+    subtext: '#666666',
+    border: '#E0E0E0',
+    icon: '#000000',
+  },
+  dark: {
+    background: '#0F0F0F',
+    surface: '#1A1A1A',
+    text: '#FFFFFF',
+    subtext: '#AAAAAA',
+    border: '#2C2C2C',
+    icon: '#FFFFFF',
+  },
+
   yellow: {
     100: '#FEE9B0',
     200: '#FFB651',

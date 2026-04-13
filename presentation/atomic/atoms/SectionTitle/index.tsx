@@ -1,3 +1,4 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { colors, fontSizes, paddings, radius } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -16,6 +17,7 @@ export const SectionTitle: FC<SectionTitleProps> = ({
   canGoBack = true,
   settingsIcon = true,
 }) => {
+  const theme = useThemeColors();
   const handleBack = () => {
     router.back();
   };
@@ -38,12 +40,15 @@ export const SectionTitle: FC<SectionTitleProps> = ({
       ]}
     >
       {canGoBack && (
-        <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+        <TouchableOpacity
+          style={[styles.backButton, { backgroundColor: colors.primary }]}
+          onPress={handleBack}
+        >
           <Ionicons
             back
             name="chevron-back-outline"
             size={24}
-            color={colors.black}
+            color={theme.icon}
           />
         </TouchableOpacity>
       )}
@@ -73,7 +78,6 @@ export const SectionTitle: FC<SectionTitleProps> = ({
 const styles = StyleSheet.create({
   title: {
     fontSize: fontSizes.xxxlarge,
-    color: colors.black,
   },
   container: {
     width: '100%',

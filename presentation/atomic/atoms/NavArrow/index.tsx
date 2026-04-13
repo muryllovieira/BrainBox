@@ -1,4 +1,5 @@
-import { colors, radius } from '@/theme';
+import { useThemeColors } from '@/hooks/useThemeColors';
+import { radius } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
@@ -10,6 +11,7 @@ interface NavArrowProps {
 }
 
 export function NavArrow({ direction, onPress, disabled }: NavArrowProps) {
+  const theme = useThemeColors();
   return (
     <TouchableOpacity
       style={[styles.button, disabled && styles.disabled]}
@@ -20,7 +22,7 @@ export function NavArrow({ direction, onPress, disabled }: NavArrowProps) {
       <Ionicons
         name={direction === 'left' ? 'arrow-back' : 'arrow-forward'}
         size={20}
-        color={colors.black}
+        color={theme.icon}
       />
     </TouchableOpacity>
   );

@@ -12,7 +12,9 @@ export default function Preferences() {
         <ProfileActionButton
           title="Account Information"
           subtitle="Change your Account information"
-          onPress={() => router.navigate('/modal/edit-information')}
+          onPress={() =>
+            router.navigate('/modal/edit-information/edit-information')
+          }
           showArrow={false}
           style={styles.options}
           iconName="person"
@@ -39,7 +41,9 @@ export default function Preferences() {
         <ProfileActionButton
           title="Invite Your Friends"
           subtitle="Get $3 For Each Invitation!"
-          onPress={() => router.navigate('/modal/invite-friends')}
+          onPress={() =>
+            router.navigate('/modal/invite-friends/invite-friends')
+          }
           showArrow={false}
           style={styles.options}
           iconName="pencil-sharp"

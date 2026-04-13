@@ -1,3 +1,4 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { colors } from '@/theme';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -12,9 +13,10 @@ interface DotIndicatorProps {
 }
 
 function Dot({ isActive }: { isActive: boolean }) {
+  const theme = useThemeColors();
   const animatedStyle = useAnimatedStyle(() => ({
     width: withTiming(isActive ? 24 : 8, { duration: 300 }),
-    backgroundColor: withTiming(isActive ? colors.black : colors.gray[300], {
+    backgroundColor: withTiming(isActive ? theme.text : colors.gray[300], {
       duration: 300,
     }),
   }));

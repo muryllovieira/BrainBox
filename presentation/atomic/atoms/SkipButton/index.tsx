@@ -1,3 +1,4 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { colors, fontFamily, fontSizes } from '@/theme';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
@@ -7,13 +8,14 @@ interface SkipButtonProps {
 }
 
 export function SkipButton({ onPress }: SkipButtonProps) {
+  const theme = useThemeColors();
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={onPress}
       activeOpacity={0.6}
     >
-      <Text style={styles.label}>Skip</Text>
+      <Text style={[styles.label, { color: theme.subtext }]}>Skip</Text>
     </TouchableOpacity>
   );
 }

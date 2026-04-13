@@ -1,7 +1,7 @@
+import Chat from '@/app/(main)/chat/chat';
 import { useChat } from '@/data/ChatBot';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import React from 'react';
-import Chat from './chat';
 
 jest.mock('@/data/ChatBot', () => ({
   useChat: jest.fn(),

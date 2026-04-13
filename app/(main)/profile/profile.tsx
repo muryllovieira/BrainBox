@@ -3,6 +3,7 @@ import {
   AccountOwner,
   ProfileActionButton,
 } from '@/presentation/atomic/molecules';
+import { TabBar } from '@/presentation/atomic/organisms';
 import { colors, paddings } from '@/theme';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
@@ -14,8 +15,7 @@ export default function Profile() {
       <View
         style={{
           paddingHorizontal: paddings.xxxl,
-          alignItems: 'center',
-          gap: 61,
+          gap: 40,
         }}
       >
         <AccountOwner
@@ -26,7 +26,7 @@ export default function Profile() {
         <View style={{ gap: 30 }}>
           <ProfileActionButton
             title="Preferences"
-            onPress={() => router.navigate('/modal/preference')}
+            onPress={() => router.navigate('/modal/preference/preference')}
             showArrow={true}
             style={styles.options}
             iconName="settings-outline"
@@ -60,6 +60,7 @@ export default function Profile() {
           />
         </View>
       </View>
+      <TabBar />
     </View>
   );
 }
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
-    gap: 61,
+    justifyContent: 'space-between',
   },
   options: {
     width: '100%',

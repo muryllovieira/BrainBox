@@ -1,3 +1,4 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { colors, fontSizes, paddings } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { FC } from 'react';
@@ -35,6 +36,8 @@ export const Button: FC<ButtonProps> = ({
   let buttonTextColor: string;
   let borderColor: string;
 
+  const theme = useThemeColors();
+
   switch (variant) {
     case 'delete':
       buttonColor = colors.red[200] as string;
@@ -42,14 +45,14 @@ export const Button: FC<ButtonProps> = ({
       borderColor = colors.red[200] as string;
       break;
     case 'secondary':
-      buttonColor = colors.white as string;
-      buttonTextColor = colors.primary as string;
-      borderColor = colors.primary as string;
+      buttonColor = theme.background;
+      buttonTextColor = colors.primary;
+      borderColor = colors.primary;
       break;
     case 'outlined':
-      buttonColor = colors.gray[200] as string;
-      buttonTextColor = colors.black as string;
-      borderColor = colors.black as string;
+      buttonColor = theme.surface;
+      buttonTextColor = theme.text;
+      borderColor = theme.text;
       break;
     case 'text':
       buttonColor = 'transparent';
@@ -57,9 +60,9 @@ export const Button: FC<ButtonProps> = ({
       borderColor = colors.gray[600] as string;
       break;
     default:
-      buttonColor = colors.black as string;
-      buttonTextColor = colors.white as string;
-      borderColor = colors.black as string;
+      buttonColor = theme.text;
+      buttonTextColor = theme.background;
+      borderColor = theme.text;
       break;
   }
 

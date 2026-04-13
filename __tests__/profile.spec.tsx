@@ -1,7 +1,18 @@
+import Profile from '@/app/(main)/profile/profile';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React from 'react';
-import Profile from './profile';
+
+jest.mock('@expo/vector-icons', () => {
+  const React = require('react');
+  const { Text } = require('react-native');
+  return {
+    Ionicons: (props: any) => React.createElement(Text, null, props.name),
+    MaterialIcons: (props: any) => React.createElement(Text, null, props.name),
+    MaterialCommunityIcons: (props: any) =>
+      React.createElement(Text, null, props.name),
+  };
+});
 
 jest.mock('expo-router', () => ({
   router: {
@@ -32,7 +43,9 @@ describe('Tela de Perfil', () => {
     const prefButton = screen.getByText('Preferences');
     fireEvent.press(prefButton);
 
-    expect(router.navigate).toHaveBeenCalledWith('/modal/preference');
+    expect(router.navigate).toHaveBeenCalledWith(
+      '/modal/preference/preference',
+    );
   });
 
   test('deve exibir o subtítulo de segurança da conta', () => {
