@@ -15,7 +15,7 @@ type IconNames = keyof typeof Ionicons.glyphMap;
 
 type ButtonProps = TouchableOpacityProps & {
   text: string;
-  variant?: 'delete' | 'default' | 'secondary' | 'outlined';
+  variant?: 'delete' | 'default' | 'secondary' | 'outlined' | 'text';
   isLoading?: boolean;
   leftIcon?: IconNames;
   rightIcon?: IconNames;
@@ -33,23 +33,33 @@ export const Button: FC<ButtonProps> = ({
 }) => {
   let buttonColor: string;
   let buttonTextColor: string;
+  let borderColor: string;
 
   switch (variant) {
     case 'delete':
       buttonColor = colors.red[200] as string;
       buttonTextColor = colors.white as string;
+      borderColor = colors.red[200] as string;
       break;
     case 'secondary':
       buttonColor = colors.white as string;
       buttonTextColor = colors.primary as string;
+      borderColor = colors.primary as string;
       break;
     case 'outlined':
       buttonColor = colors.gray[200] as string;
       buttonTextColor = colors.black as string;
+      borderColor = colors.black as string;
+      break;
+    case 'text':
+      buttonColor = 'transparent';
+      buttonTextColor = colors.gray[500] as string;
+      borderColor = colors.gray[600] as string;
       break;
     default:
       buttonColor = colors.black as string;
       buttonTextColor = colors.white as string;
+      borderColor = colors.black as string;
       break;
   }
 
@@ -62,8 +72,8 @@ export const Button: FC<ButtonProps> = ({
         styles.container,
         {
           backgroundColor: buttonColor,
-          borderWidth: variant === 'outlined' ? 2 : 0,
-          borderColor: colors.black as string,
+          borderWidth: variant === 'outlined' || variant === 'text' ? 2 : 0,
+          borderColor: borderColor,
           justifyContent: leftIcon || rightIcon ? 'space-between' : 'center',
         },
         containerStyle,

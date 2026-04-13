@@ -1,20 +1,15 @@
 import { useChat } from '@/data/ChatBot';
+import { Button } from '@/presentation/atomic/atoms';
 import { CustomText } from '@/presentation/atomic/atoms/CustomText';
 import { SectionTitle } from '@/presentation/atomic/atoms/SectionTitle';
 import { CardInstructions, InputIcon } from '@/presentation/atomic/molecules';
 import { AiResponse, MyQuest } from '@/presentation/atomic/organisms';
 import { colors, fontSizes, paddings } from '@/theme';
 import React, { useEffect, useRef } from 'react';
-import {
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { FlatList, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 
 export default function Chat() {
-  const { messages, sendMessage, sendMessageStatus } = useChat();
+  const { messages, sendMessage, sendMessageStatus, clearMessages } = useChat();
   const [text, setText] = React.useState('');
   const flatListRef = useRef<FlatList>(null);
 
@@ -35,10 +30,7 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{ flex: 1, backgroundColor: colors.white }}
-    >
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.white }}>
       <SectionTitle title="Health" canGoBack settingsIcon />
       <View style={styles.container}>
         {messages.length === 0 ? (
@@ -55,44 +47,63 @@ export default function Chat() {
             </View>
           </View>
         ) : (
-          <FlatList
-            ref={flatListRef}
-            data={messages}
-            keyExtractor={(_, index) => index.toString()}
-            contentContainerStyle={{
-              paddingBottom: paddings.xxl,
-              paddingTop: paddings.xl,
-            }}
-            renderItem={({ item }) => (
-              <View
-                style={[
-                  styles.messageContainer,
-                  {
-                    backgroundColor:
-                      item.role === 'model' ? '#F9F9F9' : 'white',
-                  },
-                ]}
-              >
-                {item.role === 'model' ? (
-                  <AiResponse
-                    message={item.text}
-                    imageSource={require('@/assets/images/Brainbox.png')}
-                  />
-                ) : (
-                  <MyQuest
-                    message={item.text}
-                    imageSource={require('@/assets/images/onboarding-1.png')}
-                    showEdit
-                  />
-                )}
-              </View>
-            )}
-          />
+          <>
+            <FlatList
+              ref={flatListRef}
+              data={messages}
+              keyExtractor={(_, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                paddingBottom: paddings.xxl,
+                paddingTop: paddings.xl,
+              }}
+              renderItem={({ item }) => (
+                <View
+                  style={[
+                    styles.messageContainer,
+                    {
+                      backgroundColor:
+                        item.role === 'model' ? '#F9F9F9' : 'white',
+                    },
+                  ]}
+                >
+                  {item.role === 'model' ? (
+                    <AiResponse
+                      message={item.text}
+                      imageSource={require('@/assets/images/Brainbox.png')}
+                    />
+                  ) : (
+                    <MyQuest
+                      message={item.text}
+                      imageSource={require('@/assets/images/onboarding-1.png')}
+                      showEdit
+                    />
+                  )}
+                </View>
+              )}
+            />
+            <View
+              style={{
+                maxWidth: '75%',
+
+                alignSelf: 'center',
+                padding: paddings.xxl,
+              }}
+            >
+              <Button
+                text="Regenerate Response"
+                leftIcon="refresh"
+                variant="text"
+                onPress={clearMessages}
+                disabled={isLoading}
+              />
+            </View>
+          </>
         )}
 
         <View style={styles.footer}>
           <InputIcon
-            iconName={isLoading ? 'downloading' : 'send'}
+            iconName={isLoading ? 'send' : 'send'}
             placeholder="Send a message."
             value={text}
             onChangeText={setText}
@@ -108,13 +119,13 @@ export default function Chat() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: paddings.xxxl,
   },
   welcomeView: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 32,
+    paddingHorizontal: paddings.xxxl,
   },
   title: {
     fontSize: fontSizes.xxxxxlarge,
@@ -126,9 +137,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#EEE',
     width: '100%',
+    paddingHorizontal: paddings.xxxl,
   },
   footer: {
     paddingBottom: paddings.xl,
     paddingTop: paddings.lg,
+    paddingHorizontal: paddings.xxxl,
   },
 });

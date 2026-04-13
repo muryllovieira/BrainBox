@@ -37,22 +37,29 @@ export const MyQuest = ({
         style,
       ]}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 24 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 12,
+          flex: 1,
+        }}
+      >
         <Image
           source={imageSource}
           style={{ width: 37, height: 37, borderRadius: radius.xs }}
         />
-        <View style={{ flexShrink: 1, gap: 12 }}>
-          <CustomText
-            style={{
-              color: colors.black,
-              fontSize: fontSizes.medium,
-            }}
-            fontType="PoppinsMedium"
-          >
-            {message}
-          </CustomText>
-        </View>
+        <CustomText
+          style={{
+            color: colors.black,
+            fontSize: fontSizes.medium,
+            flex: 1,
+            flexWrap: 'wrap',
+          }}
+          fontType="PoppinsMedium"
+        >
+          {message}
+        </CustomText>
       </View>
 
       {showEdit && (
