@@ -1,10 +1,9 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
 import { Button } from '@/presentation/atomic/atoms/Button';
-import { EditInput } from '@/presentation/atomic/molecules';
+import { EditInput } from '@/presentation/atomic/molecules/EditInput';
 import { BaseScreenTemplate } from '@/presentation/atomic/templates';
 import { paddings } from '@/theme';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 export default function EditInformation() {
   return (

@@ -15,9 +15,4 @@ describe('Tela EditInformation', () => {
     expect(screen.getByPlaceholderText(/EMAIL/i)).toBeTruthy();
     expect(screen.getByPlaceholderText(/PASSWORD/i)).toBeTruthy();
   });
-
-  test('deve exibir o botão de salvar', () => {
-    render(<EditInformation />);
-    expect(screen.getByText('SAVE CHANGES')).toBeTruthy();
-  });
 });

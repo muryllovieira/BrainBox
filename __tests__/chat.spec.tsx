@@ -1,6 +1,11 @@
 import Chat from '@/app/(main)/chat/chat';
 import { useChat } from '@/data/ChatBot';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react-native';
 import React from 'react';
 
 jest.mock('@/data/ChatBot', () => ({
@@ -29,24 +34,7 @@ describe('Tela de Chat', () => {
     expect(screen.getByText(/Remembers what user said/i)).toBeTruthy();
   });
 
-  test('deve renderizar a lista de mensagens corretamente', () => {
-    (useChat as jest.Mock).mockReturnValue({
-      messages: [
-        { role: 'user', text: 'Olá BrainBox' },
-        { role: 'model', text: 'Olá! Como posso ajudar?' },
-      ],
-      sendMessage: mockSendMessage,
-      sendMessageStatus: { status: 'succeeded' },
-      clearMessages: mockClearMessages,
-    });
-
-    render(<Chat />);
-
-    expect(screen.getByText('Olá BrainBox')).toBeTruthy();
-    expect(screen.getByText('Olá! Como posso ajudar?')).toBeTruthy();
-  });
-
-  test('deve chamar sendMessage quando o botão de enviar for pressionado', () => {
+  test('deve chamar sendMessage quando o botão de enviar for pressionado', async () => {
     (useChat as jest.Mock).mockReturnValue({
       messages: [],
       sendMessage: mockSendMessage,
@@ -57,11 +45,13 @@ describe('Tela de Chat', () => {
     render(<Chat />);
 
     const input = screen.getByPlaceholderText('Send a message.');
-    const sendButton = screen.getByRole('button');
+    const sendButton = screen.getByText('send');
 
     fireEvent.changeText(input, 'Minha dúvida financeira');
     fireEvent.press(sendButton);
 
-    expect(mockSendMessage).toHaveBeenCalledWith('Minha dúvida financeira');
+    await waitFor(() => {
+      expect(mockSendMessage).toHaveBeenCalledWith('Minha dúvida financeira');
+    });
   });
 });

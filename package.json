@@ -1,7 +1,10 @@
 {
   "name": "brainbox-app",
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "setupFiles": [
+      "./jest.setup.js"
+    ]
   },
   "main": "expo-router/entry",
   "version": "1.0.0",

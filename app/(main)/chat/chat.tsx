@@ -11,10 +11,10 @@ import {
 
 import { useChat } from '@/data/ChatBot';
 import { useThemeColors } from '@/hooks/useThemeColors';
+
 import { Button, CustomText } from '@/presentation/atomic/atoms';
 import { CardInstructions, InputIcon } from '@/presentation/atomic/molecules';
 import { AiResponse, MyQuest } from '@/presentation/atomic/organisms';
-
 import { BaseScreenTemplate } from '@/presentation/atomic/templates';
 import { fontSizes, paddings } from '@/theme';
 

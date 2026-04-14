@@ -16,7 +16,6 @@ module.exports = [
     },
   },
   {
-    // Adicione isso:
     ignores: ['node_modules/', '.expo/', 'dist/', 'components/'],
   },
 ];
