@@ -1,3 +1,4 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { colors, fontSizes, radius } from '@/theme';
 import { FC } from 'react';
 import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
@@ -14,13 +15,16 @@ export const AccountOwner: FC<AccountOwnerProps> = ({
   email,
   avatar,
 }) => {
+  const theme = useThemeColors();
   return (
     <View style={styles.container}>
-      <View style={styles.avatarWrapper}>
+      <View style={[styles.avatarWrapper, { backgroundColor: theme.surface }]}>
         {avatar ? (
           <Image source={avatar} style={styles.avatar} />
         ) : (
-          <View style={styles.avatarFallback} />
+          <View
+            style={[styles.avatarFallback, { backgroundColor: theme.border }]}
+          />
         )}
       </View>
       <View>
@@ -28,7 +32,10 @@ export const AccountOwner: FC<AccountOwnerProps> = ({
           {name}
         </CustomText>
         {email && (
-          <CustomText fontType="PoppinsRegular" style={styles.email}>
+          <CustomText
+            fontType="PoppinsRegular"
+            style={[styles.email, { color: theme.subtext }]}
+          >
             {email}
           </CustomText>
         )}
@@ -61,12 +68,12 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: fontSizes.xxxxlarge,
-    color: colors.black,
+
     textAlign: 'center',
   },
   email: {
     fontSize: fontSizes.large,
-    color: colors.gray[500],
+
     textAlign: 'center',
   },
 });

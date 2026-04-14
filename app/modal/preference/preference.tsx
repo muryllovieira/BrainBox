@@ -1,75 +1,75 @@
-import { SectionTitle } from '@/presentation/atomic/atoms';
-import { ProfileActionButton } from '@/presentation/atomic/molecules';
-import { colors, paddings } from '@/theme';
 import { router } from 'expo-router';
+import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { AppThemeContext } from '@/data';
+import { ProfileActionButton } from '@/presentation/atomic/molecules';
+import { BaseScreenTemplate } from '@/presentation/atomic/templates';
+import { paddings } from '@/theme';
+
 export default function Preferences() {
+  const { themeMode, setTheme } = useContext(AppThemeContext);
+
+  const handleThemeChange = () => {
+    if (themeMode === 'light') setTheme('dark');
+    else if (themeMode === 'dark') setTheme('system');
+    else setTheme('light');
+  };
+
+  const getThemeSubtitle = () => {
+    if (themeMode === 'system') return 'Following the cell phone system theme';
+    return themeMode === 'light' ? 'Light mode active' : 'Dark mode active';
+  };
+
   return (
-    <View style={styles.container}>
-      <SectionTitle title="Preference" canGoBack settingsIcon={false} />
-      <View style={{ gap: 50, paddingHorizontal: paddings.xxxl }}>
+    <BaseScreenTemplate title="Preference" canGoBack>
+      <View style={styles.listContainer}>
         <ProfileActionButton
           title="Account Information"
           subtitle="Change your Account information"
           onPress={() =>
             router.navigate('/modal/edit-information/edit-information')
           }
-          showArrow={false}
-          style={styles.options}
           iconName="person"
-          iconColor="black"
         />
+
         <ProfileActionButton
           title="Password"
           subtitle="Change your Password"
           onPress={() => {}}
-          showArrow={false}
-          style={styles.options}
           iconName="eye"
-          iconColor="black"
         />
+
         <ProfileActionButton
           title="Payment Methods"
           subtitle="Add Your Credit / Credit Cards"
           onPress={() => {}}
-          showArrow={false}
-          style={styles.options}
           iconName="wallet"
-          iconColor="black"
         />
+
         <ProfileActionButton
           title="Invite Your Friends"
           subtitle="Get $3 For Each Invitation!"
           onPress={() =>
             router.navigate('/modal/invite-friends/invite-friends')
           }
-          showArrow={false}
-          style={styles.options}
           iconName="pencil-sharp"
-          iconColor="black"
         />
+
         <ProfileActionButton
           title="Theme Colour"
-          subtitle="Change Your Theme Colour"
-          onPress={() => {}}
-          showArrow={false}
-          style={styles.options}
+          subtitle={getThemeSubtitle()}
+          onPress={handleThemeChange}
           iconName="settings-outline"
-          iconColor="black"
         />
       </View>
-    </View>
+    </BaseScreenTemplate>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-    gap: 72,
-  },
-  options: {
-    width: '100%',
+  listContainer: {
+    gap: 40,
+    paddingVertical: paddings.xl,
   },
 });

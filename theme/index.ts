@@ -9,14 +9,14 @@ export const colors = {
 
   light: {
     background: '#FFFFFF',
-    surface: '#F5F5F5',
+    surface: '#F7F7F8',
     text: '#000000',
     subtext: '#666666',
     border: '#E0E0E0',
     icon: '#000000',
   },
   dark: {
-    background: '#0F0F0F',
+    background: '#141718',
     surface: '#1A1A1A',
     text: '#FFFFFF',
     subtext: '#AAAAAA',
@@ -109,6 +109,7 @@ export const fontSizes = {
   xxxlarge: 20,
   xxxxlarge: 24,
   xxxxxlarge: 30,
+  xxxxxxlarge: 40,
 } as const satisfies Record<string, number>;
 
 export const margins = {

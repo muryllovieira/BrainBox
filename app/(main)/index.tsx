@@ -1,9 +1,10 @@
 import { ONBOARDING_SLIDES } from '@/constants/Onboarding';
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { DotIndicator, SkipButton } from '@/presentation/atomic/atoms';
 import { CustomText } from '@/presentation/atomic/atoms/CustomText';
 import { OnboardingNavControls } from '@/presentation/atomic/molecules';
 import { OnboardingSlide } from '@/presentation/atomic/organisms';
-import { colors, fontSizes, paddings } from '@/theme';
+import { fontSizes, paddings } from '@/theme';
 import { router } from 'expo-router';
 import React, { useRef, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
@@ -12,6 +13,8 @@ import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 const { width } = Dimensions.get('window');
 
 export default function OnboardingScreen() {
+  const theme = useThemeColors();
+
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<ICarouselInstance>(null);
 
@@ -34,7 +37,7 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <SkipButton onPress={handleSkip} />
 
       <View style={styles.carouselContainer}>
@@ -54,7 +57,10 @@ export default function OnboardingScreen() {
         <CustomText style={styles.title} fontType="PoppinsBold">
           {ONBOARDING_SLIDES[activeIndex].title}
         </CustomText>
-        <CustomText style={styles.subtitle} fontType="PoppinsLight">
+        <CustomText
+          style={[styles.subtitle, { color: theme.subtext }]}
+          fontType="PoppinsLight"
+        >
           {ONBOARDING_SLIDES[activeIndex].subtitle}
         </CustomText>
       </View>
@@ -73,7 +79,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: colors.white,
   },
   carouselContainer: {
     height: '65%',
@@ -85,7 +90,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: fontSizes.xlarge,
     textAlign: 'center',
-    color: colors.gray[500],
   },
   textContainer: {
     paddingHorizontal: 80,

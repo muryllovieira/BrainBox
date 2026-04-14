@@ -1,5 +1,6 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { CustomText } from '@/presentation/atomic/atoms/CustomText';
-import { colors, fontSizes, paddings, radius } from '@/theme';
+import { fontSizes, paddings, radius } from '@/theme';
 import { StyleSheet, View } from 'react-native';
 
 interface CardInstructionsProps {
@@ -7,9 +8,14 @@ interface CardInstructionsProps {
 }
 
 export const CardInstructions = ({ text }: CardInstructionsProps) => {
+  const theme = useThemeColors();
+
   return (
-    <View style={styles.container}>
-      <CustomText fontType="PoppinsRegular" style={styles.text}>
+    <View style={[styles.container, { backgroundColor: theme.surface }]}>
+      <CustomText
+        fontType="PoppinsRegular"
+        style={[styles.text, { color: theme.subtext }]}
+      >
         {text}
       </CustomText>
     </View>
@@ -19,13 +25,11 @@ export const CardInstructions = ({ text }: CardInstructionsProps) => {
 const styles = StyleSheet.create({
   text: {
     fontSize: fontSizes.xlarge,
-    color: colors.gray[500],
     textAlign: 'center',
     letterSpacing: 0.18,
     padding: paddings.sm,
   },
   container: {
-    backgroundColor: colors.gray[300],
     borderRadius: radius.sm,
     width: '100%',
     flexDirection: 'row',

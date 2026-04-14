@@ -1,5 +1,5 @@
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { colors, fontSizes, paddings, radius } from '@/theme';
+import { fontSizes, paddings, radius } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { FC } from 'react';
@@ -18,91 +18,87 @@ export const SectionTitle: FC<SectionTitleProps> = ({
   settingsIcon = true,
 }) => {
   const theme = useThemeColors();
-  const handleBack = () => {
-    router.back();
-  };
-
-  const handleProfile = () => {
-    router.navigate('/(main)/profile/profile');
-  };
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          justifyContent: canGoBack
-            ? settingsIcon
-              ? 'space-between'
-              : 'flex-start'
-            : 'center',
-        },
-      ]}
-    >
-      {canGoBack && (
-        <TouchableOpacity
-          style={[styles.backButton, { backgroundColor: colors.primary }]}
-          onPress={handleBack}
-        >
-          <Ionicons
-            back
-            name="chevron-back-outline"
-            size={24}
-            color={theme.icon}
-          />
-        </TouchableOpacity>
-      )}
-      <View style={styles.center}>
-        <CustomText fontType="PoppinsMedium" style={styles.title}>
-          {title}
-        </CustomText>
-      </View>
+    <View style={styles.container}>
       <View style={styles.side}>
-        {settingsIcon && (
-          <TouchableOpacity onPress={handleProfile}>
+        {canGoBack && (
+          <TouchableOpacity
+            style={[styles.backButton, { backgroundColor: theme.surface }]}
+            onPress={() => router.back()}
+          >
             <Ionicons
-              name="ellipsis-horizontal"
+              name="chevron-back-outline"
               size={24}
-              color={colors.gray[500]}
+              color={theme.icon}
             />
           </TouchableOpacity>
         )}
       </View>
 
-      {settingsIcon && <View />}
-      {canGoBack && <View />}
+      <View style={styles.center}>
+        <CustomText
+          fontType="PoppinsMedium"
+          style={[styles.title, { color: theme.text }]}
+          numberOfLines={1}
+        >
+          {title}
+        </CustomText>
+      </View>
+
+      <View style={[styles.side, { alignItems: 'flex-end' }]}>
+        {settingsIcon && (
+          <TouchableOpacity
+            style={styles.sideButton}
+            onPress={() => router.navigate('/(main)/profile/profile')}
+          >
+            <Ionicons name="ellipsis-horizontal" size={24} color={theme.icon} />
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: fontSizes.xxxlarge,
-  },
   container: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: paddings.xxl,
+    height: 60,
   },
   side: {
-    alignItems: 'flex-start',
+    width: 45,
+    justifyContent: 'center',
   },
   center: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+  },
+  title: {
+    fontSize: fontSizes.xxxlarge,
+    letterSpacing: 0.3,
+    textAlign: 'center',
   },
   backButton: {
     width: 45,
     height: 45,
-    backgroundColor: colors.primary,
     borderRadius: radius.sm,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#D3D1D8',
-    shadowOffset: { width: 5.92, height: 11.84 },
-    shadowOpacity: 0.3,
-    shadowRadius: 23.68 / 2,
-    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  sideButton: {
+    width: 45,
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

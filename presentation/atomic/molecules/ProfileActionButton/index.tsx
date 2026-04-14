@@ -1,3 +1,4 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { CustomText } from '@/presentation/atomic/atoms';
 import { colors, fontSizes } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
@@ -28,7 +29,12 @@ export const ProfileActionButton = ({
   iconColor,
   progress,
 }: ProfileActionButtonProps) => {
+  const theme = useThemeColors();
+
   const isDanger = variant === 'danger';
+  const resolvedIconColor = iconColor
+    ? (colors[iconColor] as string)
+    : theme.subtext;
 
   return (
     <TouchableOpacity
@@ -45,14 +51,14 @@ export const ProfileActionButton = ({
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 24 }}>
         <Ionicons
-          style={iconColor ? { color: iconColor } : { color: colors.gray[600] }}
+          style={{ color: resolvedIconColor }}
           size={32}
           name={iconName}
         />
         <View style={{ flexShrink: 1, gap: 12 }}>
           <CustomText
             style={{
-              color: isDanger ? colors.red[300] : colors.black,
+              color: isDanger ? colors.red[300] : theme.text,
               fontSize: fontSizes.xxlarge,
             }}
             fontType="PoppinsMedium"
@@ -67,7 +73,7 @@ export const ProfileActionButton = ({
                   style={{
                     height: 6,
                     borderRadius: 99,
-                    backgroundColor: colors.gray[200],
+                    backgroundColor: theme.surface,
                     width: '100%',
                   }}
                 >
@@ -75,14 +81,14 @@ export const ProfileActionButton = ({
                     style={{
                       height: 6,
                       borderRadius: 99,
-                      backgroundColor: colors.black,
+                      backgroundColor: theme.text,
                       width: `${progress * 100}%`,
                     }}
                   />
                 </View>
               )}
               <CustomText
-                style={{ fontSize: fontSizes.large, color: colors.gray[500] }}
+                style={{ fontSize: fontSizes.large, color: theme.subtext }}
                 fontType="PoppinsRegular"
               >
                 {subtitle}
@@ -96,7 +102,7 @@ export const ProfileActionButton = ({
         <Ionicons
           size={18}
           name="chevron-forward"
-          color={isDanger ? colors.red[300] : colors.gray[500]}
+          color={isDanger ? colors.red[300] : theme.subtext}
         />
       )}
     </TouchableOpacity>

@@ -1,3 +1,4 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { colors, fontSizes, paddings, radius } from '@/theme';
 import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
@@ -28,30 +29,21 @@ export const EditInput: React.FC<EditInputProps> = ({
   style,
   ...props
 }) => {
+  const theme = useThemeColors();
   return (
     <View style={[styles.wrapper, containerStyle]}>
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.surface }]}>
         {leftIconName && (
-          <MaterialIcons
-            name={leftIconName}
-            size={24}
-            color={colors.gray[500]}
-          />
+          <MaterialIcons name={leftIconName} size={24} color={theme.subtext} />
         )}
-
         <TextInput
           {...props}
-          style={[styles.input, style]}
+          style={[styles.input, { color: theme.text }, style]}
           placeholder={label.toUpperCase()}
-          placeholderTextColor={colors.gray[500]}
+          placeholderTextColor={theme.subtext}
         />
-
         {rightIconName && (
-          <FontAwesome6
-            name={rightIconName}
-            size={20}
-            color={colors.gray[500]}
-          />
+          <FontAwesome6 name={rightIconName} size={20} color={theme.subtext} />
         )}
       </View>
     </View>
@@ -69,7 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.gray[100],
+
     borderRadius: radius.sm,
     paddingHorizontal: paddings.xxl,
     height: 68,
@@ -78,7 +70,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: fontSizes.xlarge,
-    color: colors.gray[700],
+
     fontFamily: 'PoppinsSemiBold',
     letterSpacing: 0.5,
   },

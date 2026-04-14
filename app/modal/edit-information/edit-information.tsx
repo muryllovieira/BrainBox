@@ -1,15 +1,20 @@
-import { SectionTitle } from '@/presentation/atomic/atoms';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+
 import { Button } from '@/presentation/atomic/atoms/Button';
 import { EditInput } from '@/presentation/atomic/molecules';
-import { colors, paddings } from '@/theme';
-import { StyleSheet, View } from 'react-native';
+import { BaseScreenTemplate } from '@/presentation/atomic/templates';
+import { paddings } from '@/theme';
 
 export default function EditInformation() {
   return (
-    <View style={styles.container}>
-      <SectionTitle title="Edit Information" canGoBack settingsIcon={false} />
-      <View style={{ paddingHorizontal: paddings.xxxl, gap: 40 }}>
-        <View style={{ gap: 24 }}>
+    <BaseScreenTemplate
+      title="Edit Information"
+      canGoBack
+      contentStyle={styles.container}
+    >
+      <View style={styles.formContainer}>
+        <View style={styles.inputGap}>
           <EditInput
             label="Full Name"
             leftIconName="person-outline"
@@ -26,19 +31,23 @@ export default function EditInformation() {
             rightIconName="edit"
           />
         </View>
+
         <Button text="SAVE CHANGES" />
       </View>
-    </View>
+    </BaseScreenTemplate>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
-    gap: 72,
+    paddingTop: paddings.xxxxl,
+    justifyContent: 'center',
   },
-  options: {
-    width: '100%',
+  formContainer: {
+    gap: 40,
+  },
+  inputGap: {
+    gap: 24,
   },
 });

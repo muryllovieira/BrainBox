@@ -1,4 +1,5 @@
-import { colors, fontSizes, radius } from '@/theme';
+import { useThemeColors } from '@/hooks/useThemeColors';
+import { fontSizes, radius } from '@/theme';
 import { FontAwesome6, SimpleLineIcons } from '@expo/vector-icons';
 import {
   Image,
@@ -22,6 +23,7 @@ export const AiResponse = ({
   style,
   imageSource,
 }: AiResponseProps) => {
+  const theme = useThemeColors();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -40,15 +42,15 @@ export const AiResponse = ({
           style={{ width: 37, height: 37, borderRadius: radius.xs }}
         />
         <View style={{ flexDirection: 'row', gap: 12 }}>
-          <FontAwesome6 size={18} name="copy" color={colors.iconColor} />
-          <SimpleLineIcons size={18} name="share" color={colors.iconColor} />
+          <FontAwesome6 size={18} name="copy" color={theme.icon} />
+          <SimpleLineIcons size={18} name="share" color={theme.icon} />
         </View>
       </View>
 
       <Markdown
         style={{
           body: {
-            color: colors.black,
+            color: theme.text,
             fontSize: fontSizes.medium,
             fontFamily: 'Poppins-Medium',
           },

@@ -1,25 +1,33 @@
-import { CustomText, SectionTitle } from '@/presentation/atomic/atoms';
-import { Button } from '@/presentation/atomic/atoms/Button';
-import { colors, fontSizes, paddings } from '@/theme';
+import React, { useContext } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 
+import { AppThemeContext } from '@/data';
+import { CustomText } from '@/presentation/atomic/atoms';
+import { Button } from '@/presentation/atomic/atoms/Button';
+
+import { BaseScreenTemplate } from '@/presentation/atomic/templates';
+import { fontSizes } from '@/theme';
+
 export default function InviteFriends() {
+  const { theme } = useContext(AppThemeContext);
+
   return (
-    <View style={styles.container}>
-      <SectionTitle title="Invite Friends" canGoBack settingsIcon={false} />
-      <View
-        style={{
-          paddingHorizontal: paddings.xxxl,
-          alignItems: 'center',
-          gap: 64,
-        }}
-      >
+    <BaseScreenTemplate
+      title="Invite Friends"
+      canGoBack
+      contentStyle={styles.container}
+    >
+      <View style={styles.content}>
         <Image
-          source={require('@/assets/images/Illustration.png')}
+          source={
+            theme === 'dark'
+              ? require('@/assets/images/IllustrationDark.png')
+              : require('@/assets/images/Illustration.png')
+          }
           style={styles.image}
         />
 
-        <View style={{ gap: 8, width: '75%' }}>
+        <View style={styles.textContainer}>
           <CustomText
             fontType="PoppinsSemiBold"
             style={{ fontSize: fontSizes.xxxxlarge, textAlign: 'center' }}
@@ -33,21 +41,29 @@ export default function InviteFriends() {
             Share Your Promo Code & Get $3 For Each Friend
           </CustomText>
         </View>
+
         <Button text="BrainAiPartnerMR" variant="outlined" rightIcon="copy" />
       </View>
-    </View>
+    </BaseScreenTemplate>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    justifyContent: 'center',
+  },
+  content: {
     alignItems: 'center',
     gap: 64,
+    width: '100%',
   },
   image: {
     width: 168,
     height: 246,
+  },
+  textContainer: {
+    gap: 8,
+    width: '75%',
   },
 });

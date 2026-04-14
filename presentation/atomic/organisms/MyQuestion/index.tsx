@@ -1,5 +1,6 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { CustomText } from '@/presentation/atomic/atoms';
-import { colors, fontSizes, radius } from '@/theme';
+import { fontSizes, radius } from '@/theme';
 import { FontAwesome6 } from '@expo/vector-icons';
 import {
   Image,
@@ -24,6 +25,7 @@ export const MyQuest = ({
   style,
   imageSource,
 }: MyQuestProps) => {
+  const theme = useThemeColors();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -38,12 +40,7 @@ export const MyQuest = ({
       ]}
     >
       <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 12,
-          flex: 1,
-        }}
+        style={{ flexDirection: 'row', alignItems: 'center', gap: 12, flex: 1 }}
       >
         <Image
           source={imageSource}
@@ -51,7 +48,7 @@ export const MyQuest = ({
         />
         <CustomText
           style={{
-            color: colors.black,
+            color: theme.text,
             fontSize: fontSizes.medium,
             flex: 1,
             flexWrap: 'wrap',
@@ -62,9 +59,7 @@ export const MyQuest = ({
         </CustomText>
       </View>
 
-      {showEdit && (
-        <FontAwesome6 size={18} name="edit" color={colors.iconColor} />
-      )}
+      {showEdit && <FontAwesome6 size={18} name="edit" color={theme.icon} />}
     </TouchableOpacity>
   );
 };

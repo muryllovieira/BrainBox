@@ -1,5 +1,6 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { NavArrow } from '@/presentation/atomic/atoms/NavArrow';
-import { colors, paddings, radius } from '@/theme';
+import { paddings, radius } from '@/theme';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -15,10 +16,12 @@ export function OnboardingNavControls({
   onNext,
   disablePrev,
 }: OnboardingNavControlsProps) {
+  const theme = useThemeColors();
+
   return (
-    <View style={styles.pill}>
+    <View style={[styles.pill, { backgroundColor: theme.background }]}>
       <NavArrow direction="left" onPress={onPrev} disabled={disablePrev} />
-      <View style={styles.divider} />
+      <View style={[styles.divider, { backgroundColor: theme.border }]} />
       <NavArrow direction="right" onPress={onNext} />
     </View>
   );
@@ -28,7 +31,7 @@ const styles = StyleSheet.create({
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.white,
+
     borderRadius: radius.sm,
     paddingHorizontal: paddings.sm,
     paddingVertical: paddings.xs,
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
   divider: {
     width: 1,
     height: 22,
-    backgroundColor: colors.gray[300],
+
     marginHorizontal: 4,
   },
 });

@@ -1,65 +1,55 @@
-import { SectionTitle } from '@/presentation/atomic/atoms';
+import { router } from 'expo-router';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+
 import {
   AccountOwner,
   ProfileActionButton,
 } from '@/presentation/atomic/molecules';
 import { TabBar } from '@/presentation/atomic/organisms';
-import { colors, paddings } from '@/theme';
-import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { BaseScreenTemplate } from '@/presentation/atomic/templates';
 
 export default function Profile() {
   return (
     <View style={styles.container}>
-      <SectionTitle title="Profile" canGoBack settingsIcon={false} />
-      <View
-        style={{
-          paddingHorizontal: paddings.xxxl,
-          gap: 40,
-        }}
-      >
-        <AccountOwner
-          name="Tom Hillson"
-          email="Tomhill@mail.com"
-          avatar={require('@/assets/images/onboarding-1.png')}
-        />
-        <View style={{ gap: 30 }}>
-          <ProfileActionButton
-            title="Preferences"
-            onPress={() => router.navigate('/modal/preference/preference')}
-            showArrow={true}
-            style={styles.options}
-            iconName="settings-outline"
-            iconColor="black"
+      <BaseScreenTemplate title="Profile" canGoBack>
+        <View style={styles.content}>
+          <AccountOwner
+            name="Tom Hillson"
+            email="Tomhill@mail.com"
+            avatar={require('@/assets/images/onboarding-1.png')}
           />
-          <ProfileActionButton
-            title="Account Security"
-            subtitle="Excellent"
-            progress={0.6}
-            onPress={() => {}}
-            showArrow={true}
-            style={styles.options}
-            iconName="lock-open-outline"
-            iconColor="black"
-          />
-          <ProfileActionButton
-            title="Customer Support"
-            onPress={() => {}}
-            showArrow={true}
-            style={styles.options}
-            iconName="help-circle-outline"
-            iconColor="black"
-          />
-          <ProfileActionButton
-            title="Logout"
-            onPress={() => {}}
-            showArrow={false}
-            style={styles.options}
-            iconName="log-out-outline"
-            iconColor="black"
-          />
+
+          <View style={styles.listGap}>
+            <ProfileActionButton
+              title="Preferences"
+              onPress={() => router.navigate('/modal/preference/preference')}
+              showArrow={true}
+              iconName="settings-outline"
+            />
+            <ProfileActionButton
+              title="Account Security"
+              subtitle="Excellent"
+              progress={0.6}
+              onPress={() => {}}
+              showArrow={true}
+              iconName="lock-open-outline"
+            />
+            <ProfileActionButton
+              title="Customer Support"
+              onPress={() => {}}
+              showArrow={true}
+              iconName="help-circle-outline"
+            />
+            <ProfileActionButton
+              title="Logout"
+              onPress={() => {}}
+              showArrow={false}
+              iconName="log-out-outline"
+            />
+          </View>
         </View>
-      </View>
+      </BaseScreenTemplate>
       <TabBar />
     </View>
   );
@@ -68,10 +58,11 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
-    justifyContent: 'space-between',
   },
-  options: {
-    width: '100%',
+  content: {
+    gap: 40,
+  },
+  listGap: {
+    gap: 30,
   },
 });

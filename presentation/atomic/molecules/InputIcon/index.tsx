@@ -1,3 +1,4 @@
+import { useThemeColors } from '@/hooks/useThemeColors';
 import { colors, fontSizes } from '@/theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FC } from 'react';
@@ -34,44 +35,45 @@ export const InputIcon: FC<InputIconProps> = ({
   disabled,
   ...rest
 }) => {
+  const theme = useThemeColors();
+  const resolvedIconColor = iconColor
+    ? (colors[iconColor] as string)
+    : theme.subtext;
+
   return (
     <View style={[styles.inputContainer, inputStyle]}>
-      {label && <CustomText style={styles.inputLabel}>{label}</CustomText>}
-      <View style={styles.container}>
+      {label && (
+        <CustomText style={[styles.inputLabel, { color: theme.text }]}>
+          {label}
+        </CustomText>
+      )}
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: theme.background,
+            borderColor: theme.border,
+          },
+        ]}
+      >
         {iconSide === 'left' && (
-          <TouchableOpacity
-            onPress={onPressIcon}
-            disabled={!onPressIcon}
-            accessibilityRole="button"
-          >
+          <TouchableOpacity onPress={onPressIcon} disabled={!onPressIcon}>
             <MaterialIcons
-              style={[
-                styles.icon,
-                iconColor ? { color: iconColor as string } : null,
-              ]}
+              style={[styles.icon, { color: resolvedIconColor }]}
               size={24}
               name={iconName}
             />
           </TouchableOpacity>
         )}
-
         <TextInput
           {...rest}
-          style={styles.input}
-          placeholderTextColor={colors.gray[500]}
+          style={[styles.input, { color: theme.text }]}
+          placeholderTextColor={theme.subtext}
         />
-
         {iconSide === 'right' && (
-          <TouchableOpacity
-            onPress={onPressIcon}
-            disabled={!onPressIcon}
-            accessibilityRole="button"
-          >
+          <TouchableOpacity onPress={onPressIcon} disabled={!onPressIcon}>
             <MaterialIcons
-              style={[
-                styles.icon,
-                iconColor ? { color: colors[iconColor] as string } : null,
-              ]}
+              style={[styles.icon, { color: resolvedIconColor }]}
               size={24}
               name={iconName}
             />
@@ -88,15 +90,12 @@ const styles = StyleSheet.create({
     minHeight: 46,
     paddingHorizontal: 12,
     borderRadius: 8,
-    backgroundColor: colors.white,
-    borderColor: colors.inputBorder,
     borderWidth: 1,
     flexDirection: 'row',
     gap: 8,
     alignItems: 'center',
   },
   input: {
-    color: colors.gray[700],
     fontSize: fontSizes.xlarge,
     flex: 1,
     fontFamily: 'UrbanistRegular',
@@ -109,7 +108,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   inputLabel: {
-    color: colors.black,
     fontSize: fontSizes.large,
   },
 });

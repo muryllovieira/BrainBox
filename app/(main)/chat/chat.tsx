@@ -1,16 +1,19 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+
 import { useChat } from '@/data/ChatBot';
-import { Button } from '@/presentation/atomic/atoms';
-import { CustomText } from '@/presentation/atomic/atoms/CustomText';
-import { SectionTitle } from '@/presentation/atomic/atoms/SectionTitle';
+import { useThemeColors } from '@/hooks/useThemeColors';
+import { Button, CustomText } from '@/presentation/atomic/atoms';
 import { CardInstructions, InputIcon } from '@/presentation/atomic/molecules';
 import { AiResponse, MyQuest } from '@/presentation/atomic/organisms';
-import { colors, fontSizes, paddings } from '@/theme';
-import React, { useEffect, useRef } from 'react';
-import { FlatList, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+
+import { BaseScreenTemplate } from '@/presentation/atomic/templates';
+import { fontSizes, paddings } from '@/theme';
 
 export default function Chat() {
+  const theme = useThemeColors();
   const { messages, sendMessage, sendMessageStatus, clearMessages } = useChat();
-  const [text, setText] = React.useState('');
+  const [text, setText] = useState('');
   const flatListRef = useRef<FlatList>(null);
 
   const isLoading = sendMessageStatus.status === 'pending';
@@ -30,80 +33,79 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.white }}>
-      <SectionTitle title="Health" canGoBack settingsIcon />
+    <BaseScreenTemplate
+      title="Health"
+      settingsIcon
+      scrollable={false}
+      contentStyle={{ paddingHorizontal: 0 }}
+      canGoBack
+    >
       <View style={styles.container}>
         {messages.length === 0 ? (
           <View style={styles.welcomeView}>
-            <CustomText style={styles.title} fontType="PoppinsBold">
+            <CustomText
+              style={[styles.title, { color: theme.subtext }]}
+              fontType="UrbanistBold"
+            >
               BrainBox
             </CustomText>
-            <View style={{ gap: 12, width: '100%' }}>
+            <View style={{ gap: 12 }}>
               <CardInstructions text="Remembers what user said earlier in the conversation" />
               <CardInstructions text="Allows user to provide follow-up corrections With Ai" />
               <CardInstructions text="Limited knowledge of world and events after 2021" />
               <CardInstructions text="May occasionally generate incorrect information" />
-              <CardInstructions text="May occasionally produce harmful instructions or biased content" />
             </View>
           </View>
         ) : (
-          <>
-            <FlatList
-              ref={flatListRef}
-              data={messages}
-              keyExtractor={(_, index) => index.toString()}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{
-                paddingBottom: paddings.xxl,
-                paddingTop: paddings.xl,
-              }}
-              renderItem={({ item }) => (
-                <View
-                  style={[
-                    styles.messageContainer,
-                    {
-                      backgroundColor:
-                        item.role === 'model' ? '#F9F9F9' : 'white',
-                    },
-                  ]}
-                >
-                  {item.role === 'model' ? (
-                    <AiResponse
-                      message={item.text}
-                      imageSource={require('@/assets/images/Brainbox.png')}
-                    />
-                  ) : (
-                    <MyQuest
-                      message={item.text}
-                      imageSource={require('@/assets/images/onboarding-1.png')}
-                      showEdit
-                    />
-                  )}
-                </View>
-              )}
-            />
-            <View
-              style={{
-                maxWidth: '75%',
+          <FlatList
+            ref={flatListRef}
+            data={messages}
+            keyExtractor={(_, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.flatListContent}
+            renderItem={({ item }) => (
+              <View
+                style={[
+                  styles.messageWrapper,
+                  {
+                    backgroundColor:
+                      item.role === 'model' ? theme.surface : theme.background,
+                    borderBottomColor: theme.border,
+                  },
+                ]}
+              >
+                {item.role === 'model' ? (
+                  <AiResponse
+                    message={item.text}
+                    imageSource={require('@/assets/images/Brainbox.png')}
+                  />
+                ) : (
+                  <MyQuest
+                    message={item.text}
+                    imageSource={require('@/assets/images/onboarding-1.png')}
+                    showEdit
+                  />
+                )}
+              </View>
+            )}
+          />
+        )}
 
-                alignSelf: 'center',
-                padding: paddings.xxl,
-              }}
-            >
-              <Button
-                text="Regenerate Response"
-                leftIcon="refresh"
-                variant="text"
-                onPress={clearMessages}
-                disabled={isLoading}
-              />
-            </View>
-          </>
+        {messages.length > 0 && (
+          <View style={styles.regenerateContainer}>
+            <Button
+              text="Regenerate Response"
+              leftIcon="refresh"
+              variant="text"
+              onPress={clearMessages}
+              disabled={isLoading}
+            />
+          </View>
         )}
 
         <View style={styles.footer}>
           <InputIcon
-            iconName={isLoading ? 'send' : 'send'}
+            iconName="send"
             placeholder="Send a message."
             value={text}
             onChangeText={setText}
@@ -112,13 +114,14 @@ export default function Chat() {
           />
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </BaseScreenTemplate>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'space-between',
   },
   welcomeView: {
     flex: 1,
@@ -127,18 +130,16 @@ const styles = StyleSheet.create({
     gap: 32,
     paddingHorizontal: paddings.xxxl,
   },
-  title: {
-    fontSize: fontSizes.xxxxxlarge,
-    color: colors.gray[500],
-    textAlign: 'center',
-  },
-  messageContainer: {
+
+  title: { fontSize: fontSizes.xxxxxxlarge, textAlign: 'center' },
+  flatListContent: { paddingBottom: paddings.xxl },
+  messageWrapper: {
     padding: paddings.lg,
     borderBottomWidth: 1,
-    borderBottomColor: '#EEE',
     width: '100%',
     paddingHorizontal: paddings.xxxl,
   },
+  regenerateContainer: { alignSelf: 'center', padding: paddings.md },
   footer: {
     paddingBottom: paddings.xl,
     paddingTop: paddings.lg,

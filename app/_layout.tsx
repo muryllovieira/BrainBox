@@ -7,10 +7,10 @@ import {
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/components/useColorScheme';
+import { AppThemeContext, AppThemeProvider } from '@/data';
 import { ChatProvider } from '@/data/ChatBot';
 import { colors } from '@/theme';
 import { StatusBar } from 'expo-status-bar';
@@ -78,16 +78,24 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <AppThemeProvider>
+      <RootLayoutNav />
+    </AppThemeProvider>
+  );
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const { theme } = useContext(AppThemeContext);
 
+  const themeColors = theme === 'dark' ? colors.dark : colors.light;
+  const navTheme = theme === 'dark' ? DarkTheme : DefaultTheme;
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary }}>
-        <StatusBar />
+    <ThemeProvider value={navTheme}>
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: themeColors.background }}
+      >
+        <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
         <ChatProvider>
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="onboarding" />

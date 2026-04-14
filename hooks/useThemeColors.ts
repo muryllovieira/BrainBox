@@ -1,7 +1,9 @@
-import { useColorScheme } from '@/components/useColorScheme';
+import { useContext } from 'react';
+
+import { AppThemeContext } from '@/data';
 import { colors } from '@/theme';
 
 export function useThemeColors() {
-  const scheme = useColorScheme();
-  return scheme === 'dark' ? colors.dark : colors.light;
+  const { theme } = useContext(AppThemeContext);
+  return theme === 'dark' ? colors.dark : colors.light;
 }
