@@ -4,6 +4,10 @@
     "preset": "jest-expo",
     "setupFiles": [
       "./jest.setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/components/__tests__/"
     ]
   },
   "main": "expo-router/entry",
