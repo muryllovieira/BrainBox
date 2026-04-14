@@ -5,32 +5,38 @@ import {
   ThemeProvider,
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useContext, useEffect } from 'react';
+import { SplashScreen, Stack } from 'expo-router';
+import { useContext, useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
 import { AppThemeContext, AppThemeProvider } from '@/data';
 import { ChatProvider } from '@/data/ChatBot';
+import { CustomSplashScreen } from '@/presentation/atomic/templates';
 import { colors } from '@/theme';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: 'onboarding',
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  return (
+    <AppThemeProvider>
+      <RootLayoutNav />
+    </AppThemeProvider>
+  );
+}
+
+function RootLayoutNav() {
+  const [appIsReady, setAppIsReady] = useState(false);
+  const { theme } = useContext(AppThemeContext);
+
   const [loaded, error] = useFonts({
     PoppinsBlack: require('../assets/fonts/Poppins-Black.ttf'),
     PoppinsBold: require('../assets/fonts/Poppins-Bold.ttf'),
@@ -63,33 +69,25 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
-    if (error) throw error;
-  }, [error]);
-
-  useEffect(() => {
-    if (loaded) {
+    if (loaded || error) {
       SplashScreen.hideAsync();
+
+      const timeout = setTimeout(() => {
+        setAppIsReady(true);
+      }, 3000);
+
+      return () => clearTimeout(timeout);
     }
-  }, [loaded]);
+  }, [loaded, error]);
 
-  if (!loaded) {
-    return null;
+  if (!appIsReady) {
+    return <CustomSplashScreen />;
   }
-
-  return (
-    <AppThemeProvider>
-      <RootLayoutNav />
-    </AppThemeProvider>
-  );
-}
-
-function RootLayoutNav() {
-  const { theme } = useContext(AppThemeContext);
 
   const themeColors = theme === 'dark' ? colors.dark : colors.light;
   const navTheme = theme === 'dark' ? DarkTheme : DefaultTheme;
+
   return (
     <ThemeProvider value={navTheme}>
       <SafeAreaView

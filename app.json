@@ -1,25 +1,25 @@
 {
   "expo": {
-    "name": "brainbox-app",
+    "name": "BrainBox",
     "slug": "brainbox-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "brainboxapp",
+    "icon": "./assets/images/Logo.png",
+    "scheme": "brainbox-app", 
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/Logo.png", 
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F8F9FB" 
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/Logo.png",
+        "backgroundColor": "#F8F9FB"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
