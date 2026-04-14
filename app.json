@@ -5,13 +5,13 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/Logo.png",
-    "scheme": "brainbox-app", 
+    "scheme": "brainbox-app",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/Logo.png", 
+      "image": "./assets/images/Logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#F8F9FB" 
+      "backgroundColor": "#F8F9FB"
     },
     "ios": {
       "supportsTablet": true
@@ -22,7 +22,8 @@
         "backgroundColor": "#F8F9FB"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.muryllovieira.brainboxapp"
     },
     "web": {
       "bundler": "metro",
@@ -34,6 +35,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7f1fc4c5-41d6-452c-9a06-630fa6425dd4"
+      }
     }
   }
 }
