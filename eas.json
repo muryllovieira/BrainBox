@@ -1,23 +1,25 @@
 {
-  "cli": {
-    "version": ">= 18.6.0",
-    "appVersionSource": "remote"
-  },
   "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
     "preview": {
-     "android": {
-        "buildType": "apk"
-      }
+      "distribution": "internal",
+      "android": { "buildType": "apk" },
+      "ios": { "simulator": false }
     },
     "production": {
-      "autoIncrement": true
+      "android": { "buildType": "app-bundle" },
+      "ios": {}
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "./google-service-account.json",
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "seu@email.com",
+        "ascAppId": "SEU_APP_ID"
+      }
+    }
   }
 }
