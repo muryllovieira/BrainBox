@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import {
+  FlatList,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 
 import { useChat } from '@/data/ChatBot';
 import { useThemeColors } from '@/hooks/useThemeColors';
@@ -37,83 +45,94 @@ export default function Chat() {
       title="Health"
       settingsIcon
       scrollable={false}
-      contentStyle={{ paddingHorizontal: 0 }}
       canGoBack
     >
-      <View style={styles.container}>
-        {messages.length === 0 ? (
-          <View style={styles.welcomeView}>
-            <CustomText
-              style={[styles.title, { color: theme.subtext }]}
-              fontType="UrbanistBold"
-            >
-              BrainBox
-            </CustomText>
-            <View style={{ gap: 12 }}>
-              <CardInstructions text="Remembers what user said earlier in the conversation" />
-              <CardInstructions text="Allows user to provide follow-up corrections With Ai" />
-              <CardInstructions text="Limited knowledge of world and events after 2021" />
-              <CardInstructions text="May occasionally generate incorrect information" />
-            </View>
-          </View>
-        ) : (
-          <FlatList
-            ref={flatListRef}
-            data={messages}
-            keyExtractor={(_, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.flatListContent}
-            renderItem={({ item }) => (
-              <View
-                style={[
-                  styles.messageWrapper,
-                  {
-                    backgroundColor:
-                      item.role === 'model' ? theme.surface : theme.background,
-                    borderBottomColor: theme.border,
-                  },
-                ]}
-              >
-                {item.role === 'model' ? (
-                  <AiResponse
-                    message={item.text}
-                    imageSource={require('@/assets/images/Brainbox.png')}
-                  />
-                ) : (
-                  <MyQuest
-                    message={item.text}
-                    imageSource={require('@/assets/images/onboarding-1.png')}
-                    showEdit
-                  />
-                )}
-              </View>
-            )}
-          />
-        )}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+      >
+        <View style={styles.container}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={{ flex: 1 }}>
+              {messages.length === 0 ? (
+                <View style={styles.welcomeView}>
+                  <CustomText
+                    style={[styles.title, { color: theme.subtext }]}
+                    fontType="UrbanistBold"
+                  >
+                    BrainBox
+                  </CustomText>
+                  <View style={{ gap: 12 }}>
+                    <CardInstructions text="Remembers what user said earlier in the conversation" />
+                    <CardInstructions text="Allows user to provide follow-up corrections With Ai" />
+                    <CardInstructions text="Limited knowledge of world and events after 2021" />
+                    <CardInstructions text="May occasionally generate incorrect information" />
+                  </View>
+                </View>
+              ) : (
+                <FlatList
+                  ref={flatListRef}
+                  data={messages}
+                  keyExtractor={(_, index) => index.toString()}
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={styles.flatListContent}
+                  renderItem={({ item }) => (
+                    <View
+                      style={[
+                        styles.messageWrapper,
+                        {
+                          backgroundColor:
+                            item.role === 'model'
+                              ? theme.surface
+                              : theme.background,
+                          borderBottomColor: theme.border,
+                        },
+                      ]}
+                    >
+                      {item.role === 'model' ? (
+                        <AiResponse
+                          message={item.text}
+                          imageSource={require('@/assets/images/Brainbox.png')}
+                        />
+                      ) : (
+                        <MyQuest
+                          message={item.text}
+                          imageSource={require('@/assets/images/onboarding-1.png')}
+                          showEdit
+                        />
+                      )}
+                    </View>
+                  )}
+                />
+              )}
 
-        {messages.length > 0 && (
-          <View style={styles.regenerateContainer}>
-            <Button
-              text="Regenerate Response"
-              leftIcon="refresh"
-              variant="text"
-              onPress={clearMessages}
+              {messages.length > 0 && (
+                <View style={styles.regenerateContainer}>
+                  <Button
+                    text="Regenerate Response"
+                    leftIcon="refresh"
+                    variant="text"
+                    onPress={clearMessages}
+                    disabled={isLoading}
+                  />
+                </View>
+              )}
+            </View>
+          </TouchableWithoutFeedback>
+
+          <View style={styles.footer}>
+            <InputIcon
+              iconName="send"
+              placeholder="Send a message."
+              value={text}
+              onChangeText={setText}
+              onPressIcon={handleSend}
               disabled={isLoading}
             />
           </View>
-        )}
-
-        <View style={styles.footer}>
-          <InputIcon
-            iconName="send"
-            placeholder="Send a message."
-            value={text}
-            onChangeText={setText}
-            onPressIcon={handleSend}
-            disabled={isLoading}
-          />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </BaseScreenTemplate>
   );
 }
@@ -139,7 +158,11 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: paddings.xxxl,
   },
-  regenerateContainer: { alignSelf: 'center', padding: paddings.md },
+  regenerateContainer: {
+    alignSelf: 'center',
+    padding: paddings.md,
+    width: '70%',
+  },
   footer: {
     paddingBottom: paddings.xl,
     paddingTop: paddings.lg,

@@ -16,7 +16,7 @@ function Dot({ isActive }: { isActive: boolean }) {
   const theme = useThemeColors();
   const animatedStyle = useAnimatedStyle(() => ({
     width: withTiming(isActive ? 24 : 8, { duration: 300 }),
-    backgroundColor: withTiming(isActive ? theme.text : colors.gray[300], {
+    backgroundColor: withTiming(isActive ? theme.text : colors.gray[500], {
       duration: 300,
     }),
   }));

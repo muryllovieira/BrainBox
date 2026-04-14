@@ -30,7 +30,7 @@ export function CustomSplashScreen() {
 
       <View style={styles.footer}>
         <CustomText
-          fontType="PoppinsBold"
+          fontType="PoppinsMedium"
           style={[styles.brand, { color: themeColors.text }]}
         >
           BrainBox

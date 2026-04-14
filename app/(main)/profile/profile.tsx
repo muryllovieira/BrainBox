@@ -18,6 +18,7 @@ export default function Profile() {
             name="Tom Hillson"
             email="Tomhill@mail.com"
             avatar={require('@/assets/images/onboarding-1.png')}
+            isOnline={true}
           />
 
           <View style={styles.listGap}>

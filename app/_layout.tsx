@@ -96,11 +96,21 @@ function RootLayoutNav() {
         <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
         <ChatProvider>
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="onboarding" />
-            <Stack.Screen name="index" />
-            <Stack.Screen name="chat" />
-            <Stack.Screen name="profile" />
-            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="(main)/index" />
+            <Stack.Screen name="(main)/chat/chat" />
+            <Stack.Screen name="(main)/profile/profile" />
+            <Stack.Screen
+              name="modal/edit-information/edit-information"
+              options={{ presentation: 'modal' }}
+            />
+            <Stack.Screen
+              name="modal/invite-friends/invite-friends"
+              options={{ presentation: 'modal' }}
+            />
+            <Stack.Screen
+              name="modal/preference/preference"
+              options={{ presentation: 'modal' }}
+            />
           </Stack>
         </ChatProvider>
         <Toast />
