@@ -14,6 +14,7 @@ import { ChatProvider } from '@/data/ChatBot';
 import { CustomSplashScreen } from '@/presentation/atomic/templates';
 import { colors } from '@/theme';
 import { StatusBar } from 'expo-status-bar';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
@@ -89,32 +90,34 @@ function RootLayoutNav() {
   const navTheme = theme === 'dark' ? DarkTheme : DefaultTheme;
 
   return (
-    <ThemeProvider value={navTheme}>
-      <SafeAreaView
-        style={{ flex: 1, backgroundColor: themeColors.background }}
-      >
-        <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
-        <ChatProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(main)/index" />
-            <Stack.Screen name="(main)/chat/chat" />
-            <Stack.Screen name="(main)/profile/profile" />
-            <Stack.Screen
-              name="modal/edit-information/edit-information"
-              options={{ presentation: 'modal' }}
-            />
-            <Stack.Screen
-              name="modal/invite-friends/invite-friends"
-              options={{ presentation: 'modal' }}
-            />
-            <Stack.Screen
-              name="modal/preference/preference"
-              options={{ presentation: 'modal' }}
-            />
-          </Stack>
-        </ChatProvider>
-        <Toast />
-      </SafeAreaView>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider value={navTheme}>
+        <SafeAreaView
+          style={{ flex: 1, backgroundColor: themeColors.background }}
+        >
+          <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
+          <ChatProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(main)/index" />
+              <Stack.Screen name="(main)/chat/chat" />
+              <Stack.Screen name="(main)/profile/profile" />
+              <Stack.Screen
+                name="modal/edit-information/edit-information"
+                options={{ presentation: 'modal' }}
+              />
+              <Stack.Screen
+                name="modal/invite-friends/invite-friends"
+                options={{ presentation: 'modal' }}
+              />
+              <Stack.Screen
+                name="modal/preference/preference"
+                options={{ presentation: 'modal' }}
+              />
+            </Stack>
+          </ChatProvider>
+          <Toast />
+        </SafeAreaView>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }

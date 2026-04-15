@@ -1,6 +1,6 @@
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { CustomText } from '@/presentation/atomic/atoms';
-import { colors, fontSizes } from '@/theme';
+import { colors, fontSizes, radius } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, View, ViewStyle } from 'react-native';
 
@@ -72,7 +72,7 @@ export const ProfileActionButton = ({
                 <View
                   style={{
                     height: 6,
-                    borderRadius: 99,
+                    borderRadius: radius.max,
                     backgroundColor: theme.surface,
                     width: '100%',
                   }}
@@ -80,7 +80,7 @@ export const ProfileActionButton = ({
                   <View
                     style={{
                       height: 6,
-                      borderRadius: 99,
+                      borderRadius: radius.max,
                       backgroundColor: theme.text,
                       width: `${progress * 100}%`,
                     }}

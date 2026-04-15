@@ -31,6 +31,7 @@ export const BaseScreenTemplate: FC<BaseScreenTemplateProps> = ({
   avoidKeyboard = true,
 }) => {
   const themeColors = useThemeColors();
+
   const ContentWrapper = scrollable ? ScrollView : View;
 
   const renderContent = () => (
@@ -49,7 +50,9 @@ export const BaseScreenTemplate: FC<BaseScreenTemplateProps> = ({
   );
 
   return (
-    <View
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      enabled={avoidKeyboard}
       style={[styles.container, { backgroundColor: themeColors.background }]}
     >
       <SectionTitle
@@ -57,18 +60,8 @@ export const BaseScreenTemplate: FC<BaseScreenTemplateProps> = ({
         canGoBack={canGoBack}
         settingsIcon={settingsIcon}
       />
-
-      {avoidKeyboard ? (
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.flex}
-        >
-          {renderContent()}
-        </KeyboardAvoidingView>
-      ) : (
-        renderContent()
-      )}
-    </View>
+      {renderContent()}
+    </KeyboardAvoidingView>
   );
 };
 
@@ -82,6 +75,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: paddings.xxxl,
     paddingBottom: paddings.xl,
-    paddingTop: 20,
+    paddingTop: paddings.xl,
   },
 });

@@ -4,7 +4,7 @@ import { DotIndicator, SkipButton } from '@/presentation/atomic/atoms';
 import { CustomText } from '@/presentation/atomic/atoms/CustomText';
 import { OnboardingNavControls } from '@/presentation/atomic/molecules';
 import { OnboardingSlide } from '@/presentation/atomic/organisms';
-import { fontSizes, paddings } from '@/theme';
+import { fontSizes } from '@/theme';
 import { router } from 'expo-router';
 import React, { useRef, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
@@ -93,6 +93,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     paddingHorizontal: 80,
-    gap: paddings.sm,
+    gap: 8,
   },
 });

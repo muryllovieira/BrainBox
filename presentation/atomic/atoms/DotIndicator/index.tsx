@@ -1,5 +1,5 @@
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { colors } from '@/theme';
+import { colors, radius } from '@/theme';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
   },
   dot: {
     height: 8,
-    borderRadius: 99,
+    borderRadius: radius.max,
   },
 });

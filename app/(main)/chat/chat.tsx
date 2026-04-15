@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   FlatList,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 
@@ -17,6 +15,7 @@ import { CardInstructions, InputIcon } from '@/presentation/atomic/molecules';
 import { AiResponse, MyQuest } from '@/presentation/atomic/organisms';
 import { BaseScreenTemplate } from '@/presentation/atomic/templates';
 import { fontSizes, paddings } from '@/theme';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Chat() {
   const theme = useThemeColors();
@@ -49,79 +48,80 @@ export default function Chat() {
       avoidKeyboard={false}
     >
       <KeyboardAvoidingView
-        behavior="padding"
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
       >
         <View style={styles.container}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={{ flex: 1 }}>
-              {messages.length === 0 ? (
-                <View style={styles.welcomeView}>
-                  <CustomText
-                    style={[styles.title, { color: theme.subtext }]}
-                    fontType="UrbanistBold"
-                  >
-                    BrainBox
-                  </CustomText>
-                  <View style={{ gap: 12 }}>
-                    <CardInstructions text="Remembers what user said earlier in the conversation" />
-                    <CardInstructions text="Allows user to provide follow-up corrections With Ai" />
-                    <CardInstructions text="Limited knowledge of world and events after 2021" />
-                    <CardInstructions text="May occasionally generate incorrect information" />
-                  </View>
-                </View>
-              ) : (
-                <FlatList
-                  ref={flatListRef}
-                  data={messages}
-                  keyExtractor={(_, index) => index.toString()}
-                  onContentSizeChange={() =>
-                    flatListRef.current?.scrollToEnd({ animated: true })
-                  }
-                  renderItem={({ item }) => (
-                    <View
-                      style={[
-                        styles.messageWrapper,
-                        {
-                          backgroundColor:
-                            item.role === 'model'
-                              ? theme.surface
-                              : theme.background,
-                          borderBottomColor: theme.border,
-                        },
-                      ]}
-                    >
-                      {item.role === 'model' ? (
-                        <AiResponse
-                          message={item.text}
-                          imageSource={require('@/assets/images/Brainbox.png')}
-                        />
-                      ) : (
-                        <MyQuest
-                          message={item.text}
-                          imageSource={require('@/assets/images/onboarding-1.png')}
-                          showEdit
-                        />
-                      )}
-                    </View>
+          {messages.length === 0 ? (
+            <ScrollView
+              contentContainerStyle={styles.welcomeView}
+              showsVerticalScrollIndicator={false}
+            >
+              <CustomText
+                style={[styles.title, { color: theme.subtext }]}
+                fontType="UrbanistBold"
+              >
+                BrainBox
+              </CustomText>
+              <View style={{ gap: 12 }}>
+                <CardInstructions text="Remembers what user said earlier in the conversation" />
+                <CardInstructions text="Allows user to provide follow-up corrections With Ai" />
+                <CardInstructions text="Limited knowledge of world and events after 2021" />
+                <CardInstructions text="May occasionally generate incorrect information" />
+              </View>
+            </ScrollView>
+          ) : (
+            <FlatList
+              ref={flatListRef}
+              data={messages}
+              keyExtractor={(_, index) => index.toString()}
+              onContentSizeChange={() =>
+                flatListRef.current?.scrollToEnd({ animated: true })
+              }
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="on-drag"
+              renderItem={({ item }) => (
+                <View
+                  style={[
+                    styles.messageWrapper,
+                    {
+                      backgroundColor:
+                        item.role === 'model'
+                          ? theme.surface
+                          : theme.background,
+                      borderBottomColor: theme.border,
+                    },
+                  ]}
+                >
+                  {item.role === 'model' ? (
+                    <AiResponse
+                      message={item.text}
+                      imageSource={require('@/assets/images/Brainbox.png')}
+                    />
+                  ) : (
+                    <MyQuest
+                      message={item.text}
+                      imageSource={require('@/assets/images/onboarding-1.png')}
+                      showEdit
+                    />
                   )}
-                />
-              )}
-
-              {messages.length > 0 && (
-                <View style={styles.regenerateContainer}>
-                  <Button
-                    text="Regenerate Response"
-                    leftIcon="refresh"
-                    variant="text"
-                    onPress={clearMessages}
-                    disabled={isLoading}
-                  />
                 </View>
               )}
+            />
+          )}
+
+          {messages.length > 0 && (
+            <View style={styles.regenerateContainer}>
+              <Button
+                text="Regenerate Response"
+                leftIcon="refresh"
+                variant="text"
+                onPress={clearMessages}
+                disabled={isLoading}
+              />
             </View>
-          </TouchableWithoutFeedback>
+          )}
 
           <View style={styles.footer}>
             <InputIcon
@@ -145,13 +145,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   welcomeView: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 32,
     paddingHorizontal: paddings.xxxl,
+    paddingVertical: paddings.xxl,
   },
-
   title: { fontSize: fontSizes.xxxxxxlarge, textAlign: 'center' },
   flatListContent: { paddingBottom: paddings.xxl },
   messageWrapper: {

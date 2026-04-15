@@ -1,5 +1,5 @@
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { colors, fontSizes } from '@/theme';
+import { colors, fontSizes, paddings, radius } from '@/theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FC } from 'react';
 import {
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     minHeight: 46,
-    paddingHorizontal: 12,
-    borderRadius: 8,
+    paddingHorizontal: paddings.md,
+    borderRadius: radius.sm,
     borderWidth: 1,
     flexDirection: 'row',
     gap: 8,

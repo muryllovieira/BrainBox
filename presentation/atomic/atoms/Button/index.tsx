@@ -1,5 +1,5 @@
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { colors, fontSizes, paddings } from '@/theme';
+import { colors, fontSizes, paddings, radius } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { FC } from 'react';
 import {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     paddingVertical: paddings.lg,
     paddingHorizontal: paddings.xl,
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: radius.sm,
     flexDirection: 'row',
   },
   text: {
