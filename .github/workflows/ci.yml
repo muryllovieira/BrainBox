@@ -31,19 +31,16 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
       - run: npm ci
       - run: eas build --platform android --profile preview --non-interactive
-
-  build-production:
-    needs: lint-and-test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-      - run: npm ci
-
-      - run: eas build --platform android --profile preview --non-interactive
-
-      - run: eas submit --platform android --non-interactive
+  # build-production:
+  #   needs: lint-and-test
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: expo/expo-github-action@v8
+  #       with:
+  #         eas-version: latest
+  #         token: ${{ secrets.EXPO_TOKEN }}
+  #     - run: npm ci
+  #     - run: eas build --platform android --profile preview --non-interactive
+  #     - run: eas submit --platform android --non-interactive

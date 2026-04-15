@@ -4,7 +4,7 @@
     "slug": "brainbox-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Logo.png",
+    "icon": "./assets/images/adaptive-icon.png",
     "scheme": "brainbox-app",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/Logo.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#F8F9FB",
         "softwareKeyboardLayoutMode": "adjustResize"
       },
