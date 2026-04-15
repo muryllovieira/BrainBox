@@ -18,6 +18,7 @@ interface BaseScreenTemplateProps {
   settingsIcon?: boolean;
   contentStyle?: ViewStyle;
   scrollable?: boolean;
+  avoidKeyboard?: boolean;
 }
 
 export const BaseScreenTemplate: FC<BaseScreenTemplateProps> = ({
@@ -27,9 +28,25 @@ export const BaseScreenTemplate: FC<BaseScreenTemplateProps> = ({
   settingsIcon = false,
   contentStyle,
   scrollable = true,
+  avoidKeyboard = true,
 }) => {
   const themeColors = useThemeColors();
   const ContentWrapper = scrollable ? ScrollView : View;
+
+  const renderContent = () => (
+    <ContentWrapper
+      style={styles.flex}
+      contentContainerStyle={[
+        styles.scrollContent,
+        contentStyle,
+        !scrollable && { flex: 1 },
+      ]}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+    >
+      {children}
+    </ContentWrapper>
+  );
 
   return (
     <View
@@ -41,24 +58,16 @@ export const BaseScreenTemplate: FC<BaseScreenTemplateProps> = ({
         settingsIcon={settingsIcon}
       />
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={styles.flex}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-      >
-        <ContentWrapper
+      {avoidKeyboard ? (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.flex}
-          contentContainerStyle={[
-            styles.scrollContent,
-            contentStyle,
-            !scrollable && { flex: 1 },
-          ]}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
         >
-          {children}
-        </ContentWrapper>
-      </KeyboardAvoidingView>
+          {renderContent()}
+        </KeyboardAvoidingView>
+      ) : (
+        renderContent()
+      )}
     </View>
   );
 };

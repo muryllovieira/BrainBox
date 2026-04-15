@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   FlatList,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -44,90 +46,95 @@ export default function Chat() {
       settingsIcon
       scrollable={false}
       canGoBack
+      avoidKeyboard={false}
     >
-      <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{ flex: 1 }}>
-            {messages.length === 0 ? (
-              <View style={styles.welcomeView}>
-                <CustomText
-                  style={[styles.title, { color: theme.subtext }]}
-                  fontType="UrbanistBold"
-                >
-                  BrainBox
-                </CustomText>
-                <View style={{ gap: 12 }}>
-                  <CardInstructions text="Remembers what user said earlier in the conversation" />
-                  <CardInstructions text="Allows user to provide follow-up corrections With Ai" />
-                  <CardInstructions text="Limited knowledge of world and events after 2021" />
-                  <CardInstructions text="May occasionally generate incorrect information" />
-                </View>
-              </View>
-            ) : (
-              <FlatList
-                ref={flatListRef}
-                data={messages}
-                keyExtractor={(_, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={[
-                  styles.flatListContent,
-                  { flexGrow: 1 },
-                ]}
-                renderItem={({ item }) => (
-                  <View
-                    style={[
-                      styles.messageWrapper,
-                      {
-                        backgroundColor:
-                          item.role === 'model'
-                            ? theme.surface
-                            : theme.background,
-                        borderBottomColor: theme.border,
-                      },
-                    ]}
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+      >
+        <View style={styles.container}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={{ flex: 1 }}>
+              {messages.length === 0 ? (
+                <View style={styles.welcomeView}>
+                  <CustomText
+                    style={[styles.title, { color: theme.subtext }]}
+                    fontType="UrbanistBold"
                   >
-                    {item.role === 'model' ? (
-                      <AiResponse
-                        message={item.text}
-                        imageSource={require('@/assets/images/Brainbox.png')}
-                      />
-                    ) : (
-                      <MyQuest
-                        message={item.text}
-                        imageSource={require('@/assets/images/onboarding-1.png')}
-                        showEdit
-                      />
-                    )}
+                    BrainBox
+                  </CustomText>
+                  <View style={{ gap: 12 }}>
+                    <CardInstructions text="Remembers what user said earlier in the conversation" />
+                    <CardInstructions text="Allows user to provide follow-up corrections With Ai" />
+                    <CardInstructions text="Limited knowledge of world and events after 2021" />
+                    <CardInstructions text="May occasionally generate incorrect information" />
                   </View>
-                )}
-              />
-            )}
-
-            {messages.length > 0 && (
-              <View style={styles.regenerateContainer}>
-                <Button
-                  text="Regenerate Response"
-                  leftIcon="refresh"
-                  variant="text"
-                  onPress={clearMessages}
-                  disabled={isLoading}
+                </View>
+              ) : (
+                <FlatList
+                  ref={flatListRef}
+                  data={messages}
+                  keyExtractor={(_, index) => index.toString()}
+                  onContentSizeChange={() =>
+                    flatListRef.current?.scrollToEnd({ animated: true })
+                  }
+                  renderItem={({ item }) => (
+                    <View
+                      style={[
+                        styles.messageWrapper,
+                        {
+                          backgroundColor:
+                            item.role === 'model'
+                              ? theme.surface
+                              : theme.background,
+                          borderBottomColor: theme.border,
+                        },
+                      ]}
+                    >
+                      {item.role === 'model' ? (
+                        <AiResponse
+                          message={item.text}
+                          imageSource={require('@/assets/images/Brainbox.png')}
+                        />
+                      ) : (
+                        <MyQuest
+                          message={item.text}
+                          imageSource={require('@/assets/images/onboarding-1.png')}
+                          showEdit
+                        />
+                      )}
+                    </View>
+                  )}
                 />
-              </View>
-            )}
-          </View>
-        </TouchableWithoutFeedback>
+              )}
 
-        <View style={styles.footer}>
-          <InputIcon
-            iconName="send"
-            placeholder="Send a message."
-            value={text}
-            onChangeText={setText}
-            onPressIcon={handleSend}
-            disabled={isLoading}
-          />
+              {messages.length > 0 && (
+                <View style={styles.regenerateContainer}>
+                  <Button
+                    text="Regenerate Response"
+                    leftIcon="refresh"
+                    variant="text"
+                    onPress={clearMessages}
+                    disabled={isLoading}
+                  />
+                </View>
+              )}
+            </View>
+          </TouchableWithoutFeedback>
+
+          <View style={styles.footer}>
+            <InputIcon
+              iconName="send"
+              placeholder="Send a message."
+              value={text}
+              onChangeText={setText}
+              onPressIcon={handleSend}
+              disabled={isLoading}
+            />
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </BaseScreenTemplate>
   );
 }

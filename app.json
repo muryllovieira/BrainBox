@@ -13,16 +13,20 @@
       "resizeMode": "contain",
       "backgroundColor": "#F8F9FB"
     },
+    "software": {
+     "android": {
+        "windowSoftInputMode": "adjustResize"
+      }
+},
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "softwareKeyboardLayoutMode": "resize",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#F8F9FB",
-        "softwareKeyboardLayoutMode": "adjustResize"
+        "backgroundColor": "#F8F9FB"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.muryllovieira.brainboxapp"
     },
