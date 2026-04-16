@@ -30,7 +30,7 @@ export const ChatContext = createContext<ChatContextProps>(
 
 export const useChat = () => useContext(ChatContext);
 
-const ai = new GoogleGenerativeAI(process.env.EXPO_PUBLIC_GEMINI_API_KEY!);
+const ai = new GoogleGenerativeAI(process.env.EXPO_PUBLIC_GOOGLE_API_KEY!);
 
 const FINTECHX_SYSTEM_PROMPT = `
 Você é o BrainBox, assistente virtual inteligente da FinTechX — uma empresa líder no setor financeiro digital.

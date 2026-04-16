@@ -14,12 +14,13 @@
       "backgroundColor": "#F8F9FB"
     },
     "software": {
-     "android": {
+      "android": {
         "windowSoftInputMode": "adjustResize"
       }
-},
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.muryllovieira.brainboxapp"
     },
     "android": {
       "softwareKeyboardLayoutMode": "resize",
