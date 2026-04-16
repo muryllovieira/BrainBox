@@ -1,5 +1,5 @@
 import { requestStatus, RequestStatus } from '@/model';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI } from '@google/genai/web';
 import {
   createContext,
   ReactNode,
