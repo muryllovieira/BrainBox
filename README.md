@@ -32,7 +32,7 @@ BrainBox/
 ├── hooks/                # Custom hooks
 ├── service/              # Integração com APIs externas (Google Gemini)
 ├── model/                # Tipagens e modelos de dados
-├── data/                 # Dados estáticos ou mocks
+├── data/                 # Context API e Providers globais
 ├── constants/            # Constantes globais
 ├── theme/                # Tokens de tema (cores, tipografia, espaçamentos)
 ├── assets/               # Imagens, fontes e outros recursos estáticos
