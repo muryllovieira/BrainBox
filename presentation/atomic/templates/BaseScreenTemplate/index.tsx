@@ -19,6 +19,7 @@ interface BaseScreenTemplateProps {
   contentStyle?: ViewStyle;
   scrollable?: boolean;
   avoidKeyboard?: boolean;
+  hideHeader?: boolean;
 }
 
 export const BaseScreenTemplate: FC<BaseScreenTemplateProps> = ({
@@ -29,9 +30,9 @@ export const BaseScreenTemplate: FC<BaseScreenTemplateProps> = ({
   contentStyle,
   scrollable = true,
   avoidKeyboard = true,
+  hideHeader = false,
 }) => {
   const themeColors = useThemeColors();
-
   const ContentWrapper = scrollable ? ScrollView : View;
 
   const renderContent = () => (
@@ -55,11 +56,13 @@ export const BaseScreenTemplate: FC<BaseScreenTemplateProps> = ({
       enabled={avoidKeyboard}
       style={[styles.container, { backgroundColor: themeColors.background }]}
     >
-      <SectionTitle
-        title={title}
-        canGoBack={canGoBack}
-        settingsIcon={settingsIcon}
-      />
+      {!hideHeader && (
+        <SectionTitle
+          title={title}
+          canGoBack={canGoBack}
+          settingsIcon={settingsIcon}
+        />
+      )}
       {renderContent()}
     </KeyboardAvoidingView>
   );

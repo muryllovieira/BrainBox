@@ -4,6 +4,7 @@ import { DotIndicator, SkipButton } from '@/presentation/atomic/atoms';
 import { CustomText } from '@/presentation/atomic/atoms/CustomText';
 import { OnboardingNavControls } from '@/presentation/atomic/molecules';
 import { OnboardingSlide } from '@/presentation/atomic/organisms';
+import { BaseScreenTemplate } from '@/presentation/atomic/templates';
 import { fontSizes } from '@/theme';
 import { router } from 'expo-router';
 import React, { useRef, useState } from 'react';
@@ -14,7 +15,6 @@ const { width } = Dimensions.get('window');
 
 export default function OnboardingScreen() {
   const theme = useThemeColors();
-
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<ICarouselInstance>(null);
 
@@ -22,63 +22,76 @@ export default function OnboardingScreen() {
   const isLast = activeIndex === ONBOARDING_SLIDES.length - 1;
 
   const handleNext = () => {
-    if (isLast) {
-      return;
-    }
+    if (isLast) return;
     carouselRef.current?.next();
   };
-
-  const handlePrev = () => {
-    carouselRef.current?.prev();
-  };
-
-  const handleSkip = () => {
-    router.navigate('/(main)/chat/chat');
-  };
+  const handlePrev = () => carouselRef.current?.prev();
+  const handleSkip = () => router.navigate('/(main)/chat/chat');
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <BaseScreenTemplate
+      title=""
+      hideHeader
+      scrollable={false}
+      avoidKeyboard={false}
+      contentStyle={styles.content}
+    >
       <SkipButton onPress={handleSkip} />
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+          gap: 12,
+        }}
+      >
+        <View style={styles.carouselContainer}>
+          <Carousel
+            ref={carouselRef}
+            width={width}
+            data={ONBOARDING_SLIDES}
+            onSnapToItem={setActiveIndex}
+            renderItem={({ item }) => <OnboardingSlide image={item.image} />}
+          />
+        </View>
 
-      <View style={styles.carouselContainer}>
-        <Carousel
-          ref={carouselRef}
-          width={width}
-          data={ONBOARDING_SLIDES}
-          onSnapToItem={setActiveIndex}
-          renderItem={({ item }) => <OnboardingSlide image={item.image} />}
+        <DotIndicator
+          total={ONBOARDING_SLIDES.length}
+          activeIndex={activeIndex}
+        />
+
+        <View style={styles.textContainer}>
+          <CustomText style={styles.title} fontType="PoppinsBold">
+            {ONBOARDING_SLIDES[activeIndex].title}
+          </CustomText>
+          <CustomText
+            style={[styles.subtitle, { color: theme.subtext }]}
+            fontType="PoppinsLight"
+          >
+            {ONBOARDING_SLIDES[activeIndex].subtitle}
+          </CustomText>
+        </View>
+
+        <OnboardingNavControls
+          onPrev={handlePrev}
+          onNext={handleNext}
+          disablePrev={isFirst}
+          isLast={isLast}
         />
       </View>
-      <DotIndicator
-        total={ONBOARDING_SLIDES.length}
-        activeIndex={activeIndex}
-      />
-      <View style={styles.textContainer}>
-        <CustomText style={styles.title} fontType="PoppinsBold">
-          {ONBOARDING_SLIDES[activeIndex].title}
-        </CustomText>
-        <CustomText
-          style={[styles.subtitle, { color: theme.subtext }]}
-          fontType="PoppinsLight"
-        >
-          {ONBOARDING_SLIDES[activeIndex].subtitle}
-        </CustomText>
-      </View>
-      <OnboardingNavControls
-        onPrev={handlePrev}
-        onNext={handleNext}
-        disablePrev={isFirst}
-        isLast={isLast}
-      />
-    </View>
+    </BaseScreenTemplate>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around',
+    alignContent: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 0,
+    paddingBottom: 0,
+    paddingTop: 0,
   },
   carouselContainer: {
     height: '65%',

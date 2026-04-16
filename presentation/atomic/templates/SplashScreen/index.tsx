@@ -5,6 +5,7 @@ import { CustomText } from '@/presentation/atomic/atoms';
 import { fontSizes } from '@/theme';
 import React, { useContext } from 'react';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import { BaseScreenTemplate } from '../BaseScreenTemplate';
 
 const { height } = Dimensions.get('window');
 
@@ -13,9 +14,7 @@ export function CustomSplashScreen() {
   const { theme } = useContext(AppThemeContext);
 
   return (
-    <View
-      style={[styles.container, { backgroundColor: themeColors.background }]}
-    >
+    <BaseScreenTemplate title="" hideHeader contentStyle={styles.content}>
       <View style={styles.center}>
         <Image
           source={
@@ -42,14 +41,17 @@ export function CustomSplashScreen() {
           Version 1.0
         </CustomText>
       </View>
-    </View>
+    </BaseScreenTemplate>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  content: {
+    flexGrow: 1,
     alignItems: 'center',
+    paddingHorizontal: 0,
+    paddingBottom: 0,
+    paddingTop: 0,
   },
   center: {
     flex: 1,
