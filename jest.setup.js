@@ -6,7 +6,7 @@ jest.mock('react-native/Libraries/Utilities/useColorScheme', () => ({
   default: jest.fn(() => 'light'),
 }));
 
-jest.mock('@google/genai', () => {
+jest.mock('@google/genai/web', () => {
   return {
     GoogleGenAI: jest.fn().mockImplementation(() => ({
       getGenerativeModel: jest.fn().mockReturnValue({

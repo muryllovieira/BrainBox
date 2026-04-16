@@ -8,6 +8,9 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/components/__tests__/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|@google/genai|p-retry)"
     ]
   },
   "main": "expo-router/entry",
