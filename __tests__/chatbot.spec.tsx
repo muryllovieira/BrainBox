@@ -1,14 +1,16 @@
 import { ChatProvider, useChat } from '@/data/ChatBot';
 import { act, renderHook } from '@testing-library/react-native';
 
-jest.mock('@google/genai/web', () => {
+jest.mock('@google/generative-ai', () => {
   return {
-    GoogleGenAI: jest.fn().mockImplementation(() => ({
-      models: {
-        generateContent: jest.fn().mockResolvedValue({
-          text: 'Olá, sou o BrainBox simulado!',
+    GoogleGenerativeAI: jest.fn().mockImplementation(() => ({
+      getGenerativeModel: jest.fn().mockReturnValue({
+        startChat: jest.fn().mockReturnValue({
+          sendMessage: jest.fn().mockResolvedValue({
+            response: { text: () => 'Olá, sou o BrainBox simulado!' },
+          }),
         }),
-      },
+      }),
     })),
   };
 });

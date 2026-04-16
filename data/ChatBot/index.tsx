@@ -1,5 +1,5 @@
 import { requestStatus, RequestStatus } from '@/model';
-import { GoogleGenAI } from '@google/genai/web';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import {
   createContext,
   ReactNode,
@@ -30,7 +30,7 @@ export const ChatContext = createContext<ChatContextProps>(
 
 export const useChat = () => useContext(ChatContext);
 
-const ai = new GoogleGenAI({ apiKey: process.env.EXPO_PUBLIC_GEMINI_API_KEY! });
+const ai = new GoogleGenerativeAI(process.env.EXPO_PUBLIC_GEMINI_API_KEY!);
 
 const FINTECHX_SYSTEM_PROMPT = `
 Você é o BrainBox, assistente virtual inteligente da FinTechX — uma empresa líder no setor financeiro digital.
@@ -89,25 +89,21 @@ export const ChatProvider = ({ children }: ChatProviderProps) => {
     setMessages(updatedMessages);
 
     try {
-      const contents = updatedMessages.map(msg => ({
+      const model = ai.getGenerativeModel({
+        model: 'gemini-2.5-flash',
+        systemInstruction: FINTECHX_SYSTEM_PROMPT,
+      });
+
+      const history = updatedMessages.slice(0, -1).map(msg => ({
         role: msg.role,
         parts: [{ text: msg.text }],
       }));
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        config: {
-          systemInstruction: FINTECHX_SYSTEM_PROMPT,
-        },
-        contents,
-      });
+      const chat = model.startChat({ history });
+      const result = await chat.sendMessage(text);
+      const responseText = result.response.text();
 
-      const modelMessage: Message = {
-        role: 'model',
-        text: response.text ?? '',
-      };
-
-      setMessages(prev => [...prev, modelMessage]);
+      setMessages(prev => [...prev, { role: 'model', text: responseText }]);
       setSendMessageStatus({ status: 'succeeded' });
     } catch (error) {
       console.error('Erro ao enviar mensagem:', error);
@@ -123,12 +119,7 @@ export const ChatProvider = ({ children }: ChatProviderProps) => {
 
   return (
     <ChatContext.Provider
-      value={{
-        messages,
-        sendMessage,
-        sendMessageStatus,
-        clearMessages,
-      }}
+      value={{ messages, sendMessage, sendMessageStatus, clearMessages }}
     >
       {children}
     </ChatContext.Provider>
