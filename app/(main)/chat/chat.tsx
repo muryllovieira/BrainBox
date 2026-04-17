@@ -162,8 +162,9 @@ const styles = StyleSheet.create({
   },
   regenerateContainer: {
     alignSelf: 'center',
+    alignItems: 'center',
     padding: paddings.md,
-    width: '70%',
+    maxWidth: '75%',
   },
   footer: {
     paddingBottom: paddings.xl,

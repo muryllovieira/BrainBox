@@ -106,14 +106,16 @@ export const Button: FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    alignSelf: 'stretch',
     paddingVertical: paddings.lg,
     paddingHorizontal: paddings.xl,
     alignItems: 'center',
     borderRadius: radius.sm,
     flexDirection: 'row',
+    gap: 12,
   },
   text: {
     fontSize: fontSizes.xlarge,
+    flexShrink: 1,
   },
 });

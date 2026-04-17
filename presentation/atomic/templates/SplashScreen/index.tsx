@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   brand: {
-    fontSize: fontSizes.xxxxxlarge,
+    fontSize: fontSizes.xxxlarge,
   },
   version: {
     fontSize: fontSizes.large,

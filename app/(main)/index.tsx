@@ -5,7 +5,7 @@ import { CustomText } from '@/presentation/atomic/atoms/CustomText';
 import { OnboardingNavControls } from '@/presentation/atomic/molecules';
 import { OnboardingSlide } from '@/presentation/atomic/organisms';
 import { BaseScreenTemplate } from '@/presentation/atomic/templates';
-import { fontSizes } from '@/theme';
+import { fontSizes, paddings } from '@/theme';
 import { router } from 'expo-router';
 import React, { useRef, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
@@ -36,48 +36,47 @@ export default function OnboardingScreen() {
       avoidKeyboard={false}
       contentStyle={styles.content}
     >
-      <SkipButton onPress={handleSkip} />
-      <View
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: 1,
-          gap: 12,
-        }}
-      >
-        <View style={styles.carouselContainer}>
+      <View style={styles.skipContainer}>
+        <SkipButton onPress={handleSkip} />
+      </View>
+
+      <View style={styles.mainContainer}>
+        <View style={styles.carouselWrapper}>
           <Carousel
             ref={carouselRef}
             width={width}
+            height={width * 1.2}
             data={ONBOARDING_SLIDES}
             onSnapToItem={setActiveIndex}
             renderItem={({ item }) => <OnboardingSlide image={item.image} />}
           />
         </View>
 
-        <DotIndicator
-          total={ONBOARDING_SLIDES.length}
-          activeIndex={activeIndex}
-        />
+        <View style={styles.footerContainer}>
+          <DotIndicator
+            total={ONBOARDING_SLIDES.length}
+            activeIndex={activeIndex}
+          />
 
-        <View style={styles.textContainer}>
-          <CustomText style={styles.title} fontType="PoppinsBold">
-            {ONBOARDING_SLIDES[activeIndex].title}
-          </CustomText>
-          <CustomText
-            style={[styles.subtitle, { color: theme.subtext }]}
-            fontType="PoppinsLight"
-          >
-            {ONBOARDING_SLIDES[activeIndex].subtitle}
-          </CustomText>
+          <View style={styles.textContainer}>
+            <CustomText style={styles.title} fontType="PoppinsBold">
+              {ONBOARDING_SLIDES[activeIndex].title}
+            </CustomText>
+            <CustomText
+              style={[styles.subtitle, { color: theme.subtext }]}
+              fontType="PoppinsLight"
+            >
+              {ONBOARDING_SLIDES[activeIndex].subtitle}
+            </CustomText>
+          </View>
+
+          <OnboardingNavControls
+            onPrev={handlePrev}
+            onNext={handleNext}
+            disablePrev={isFirst}
+            isLast={isLast}
+          />
         </View>
-
-        <OnboardingNavControls
-          onPrev={handlePrev}
-          onNext={handleNext}
-          disablePrev={isFirst}
-          isLast={isLast}
-        />
       </View>
     </BaseScreenTemplate>
   );
@@ -86,26 +85,37 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 0,
-    paddingBottom: 0,
-    paddingTop: 0,
+    backgroundColor: '#F8F9FA',
   },
-  carouselContainer: {
-    height: '65%',
+  skipContainer: {
+    alignItems: 'flex-end',
+    paddingHorizontal: paddings.lg,
+  },
+  mainContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  carouselWrapper: {
+    height: width * 1.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footerContainer: {
+    alignItems: 'center',
+    gap: 32,
   },
   title: {
     fontSize: fontSizes.xxxxxlarge,
     textAlign: 'center',
+    lineHeight: 38,
   },
   subtitle: {
-    fontSize: fontSizes.xlarge,
+    fontSize: fontSizes.large,
     textAlign: 'center',
+    marginTop: 8,
   },
   textContainer: {
-    paddingHorizontal: 80,
-    gap: 8,
+    paddingHorizontal: paddings.xxxxl,
   },
 });
